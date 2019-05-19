@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="header(title,keywords)">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="renderer" content="webkit" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="keywords"
+	th:content="${keywords ?: commons.site_option('site_keywords')}" />
+<meta name="description"
+	th:content="${description ?:commons.site_option('site_description')}" />
+<link rel="shortcut icon" th:href="@{/user/img/favicon.png}" />
+<link rel="apple-touch-icon" th:href="@{/user/img/apple-touch-icon.png}" />
+<title>小书包</title>
+<link
+	th:href="@{//cdn.bootcss.com/highlight.js/9.9.0/styles/xcode.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/user/css/style.min.css}" rel="stylesheet" />
+<script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.min.js}"></script>
+
+</head>
+<body th:class="${is_post}?'':'bg-grey'">
+	<header id="header" class="header bg-white">
+		<div class="navbar-container">
+			<a th:href="@{/forum}" class="navbar-logo"> <!-- thymeleaf标签 -->
+				<img th:src="@{/user/img/logo1.jpg}" alt="首页" />小书包
+			</a>
+
+			<div class="text-search">
+				<input type="button" class="button-header" id="toDoListutton"
+					onclick="toDoList()" value="待办" /> 
+				<input type="button" class="button-header" id="history"
+					onclick="showHistory()" value="历史" /> 
+				<input type="text"
+					id="search-inp" placeholder="请输入关键字..." /> <input type="button"
+					class="button-header" id="searchButton" onclick="searchBykeyWord()"
+					value="搜索" />
+				<!-- 输入框自动提示的div -->
+				<div id="auto_div"></div>
+			</div>
+		</div>
+		<script>
+			var test_list;
+			function searchBykeyWord() {
+				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字
+				window.location.href = '/user/search?keyword=' + keyword;
+			}
+			//设置定时器，每12分钟提醒一次是否有待办事项
+			var timer = self.setInterval("remind()", 1000 * 60 * 30);
+			function remind() {
+				$.ajax({
+					url : "/user/items/isHasItems",
+					type : "GET",
+					dataType : 'text',
+					success : function(data) {
+						if (data != 'nothing') {
+							alert(data);
+							//window.location.href = '/user/listItems';
+						}
+					}
+				});
+			}
+			//设置定时器，每5分钟提醒一次设置了提醒时间的事项
+			var timer1 = self.setInterval("remind1()", 1000 * 60 * 5);
+			function remind1() {
+				$.ajax({
+					url : "/user/items/getDueItems",
+					type : "GET",
+					dataType : 'text',
+					success : function(data) {
+						if (data != 'nothing') {
+							alert(data);
+							//window.location.href = '/user/listItems';
+						}
+					}
+				});
+			}
+			function toDoList() {
+				window.location.href = '/user/listItems';
+			}
+			
+			function showHistory() {
+				window.location.href = '/user/histQ';
+			}
+			$(function() {
+				$.ajax({
+					url : "/user/titles",
+					type : "GET",
+					data : {
+						'keyword' : ''
+					},
+					dataType : 'json',
+					success : function(data) {
+						test_list = data;
+					}
+				});
+			});
+		</script>
+		<script th:src="@{http://127.0.0.1:8687/user/js/input.js}"></script>
+
+	</header>
+</body>
+</html>
