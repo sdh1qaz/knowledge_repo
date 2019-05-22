@@ -93,12 +93,14 @@ public class IndexController extends BaseController {
 		UserVo userVo = new UserVo();
 		userVo.setUsername(userName);
 		userVo.setPassword(pwd);
-		if ("admin".equals(userName) && "21232f297a57a5a743894a0e4a801fc3".equals(pwd)) {
+		//用户名dhsu，密码admin
+		if ("dhsu".equals(userName) && "e10adc3949ba59abbe56e057f20f883e".equals(pwd)) {
 			//用户放入session
 			request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY, userVo);
 			response.sendRedirect("/forum");
 			return null;
 		}
+		LOGGER.info("前台登录小书包的用户名或密码错误。。。");
 		//返回登录页面
 		return this.render("login");
 	}

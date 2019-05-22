@@ -49,7 +49,7 @@ public class AuthController extends BaseController {
 	public RestResponseBo doLogin(@RequestParam String username, @RequestParam String password,
 			@RequestParam(required = false) String remeber_me, HttpServletRequest request,
 			HttpServletResponse response) {
-
+		//获取登录错误次数
 		Integer error_count = cache.get("login_error_count");
 		try {
 			UserVo user = usersService.login(username, password);

@@ -39,6 +39,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
+@RequestMapping("/admin/")
 public class UploadController {
 
 	private static final ObjectMapper objectMapper = new ObjectMapper();

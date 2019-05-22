@@ -6,6 +6,7 @@ import com.my.blog.website.service.IOptionService;
 import com.my.blog.website.service.IUserService;
 import com.my.blog.website.utils.*;
 import com.my.blog.website.constant.WebConst;
+import com.my.blog.website.controller.admin.ArticleController;
 import com.my.blog.website.dto.Types;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ public class BaseInterceptor implements HandlerInterceptor {
 	// 此方法在处理请求前被调用
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
+		
 		// 获取应用上下文
 		String contextPath = request.getContextPath();
 		// 获取请求的uri
@@ -60,19 +62,27 @@ public class BaseInterceptor implements HandlerInterceptor {
 				user = userService.queryUserById(uid);
 				request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY, user);
 			}
+		}else {
+			LOGGE.info("当前登录的用户：" + user.getUsername());
 		}
 		
-		//如果uri以/admin开头，且不以/admin/login开头，且当前没有登录的用户，
-		//则转向登录页面
-		if (uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/admin/login") && null == user) {
+		//获取当前用户类型
+		String userType = getAdminOrUser(user);
+		
+		//如果uri以/admin开头，且不以/admin/login开头，且当前没有登录的用户或为前台用户，
+		//则转向后台登录页面
+		if (uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/admin/login") 
+				&& ("0".equals(userType) || "1".equals(userType))) {
 			response.sendRedirect(request.getContextPath() + "/admin/login");
 			return false;
-		}else if(!uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/user/login") && null == user) {
+		}
+		//如果uri不以/admin开头，即前台请求，且不以/user/login开头，且当前没有登录的用户或为后台用户，
+		//则转向前台登录页面
+		if(!uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/user/login")
+				&& ("0".equals(userType) || "2".equals(userType)) && !uri.contains("preview")) {
 			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}
-		
-		//如果请求
 		
 		// 设置get请求的token
 		if (request.getMethod().equals("GET")) {
@@ -97,5 +107,16 @@ public class BaseInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			Object o, Exception e) throws Exception {
 
+	}
+	
+	//判断当前用户类型，用户为空0，前台用户为,1，后台用户为2
+	private String getAdminOrUser(UserVo user) {
+		if (null == user) {
+			return "0";
+		}else if ("dhsu".equals(user.getUsername())) {
+			return "1";
+		}else {
+			return "2";
+		}
 	}
 }
