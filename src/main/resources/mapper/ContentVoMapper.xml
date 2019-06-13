@@ -543,6 +543,11 @@
 		a.type = 'post'
 		order by a.created desc
 	</select>
+	
+	<select id="getNewlyArticles" resultMap="BaseResultMap"
+		parameterType="Integer">
+		SELECT  * FROM t_contents ORDER BY  created  DESC LIMIT #{num}
+	</select>
 	<!-- 文章的点击数加1 -->
 	<update id="hitsAddsByOne" parameterType="java.lang.Integer">
 		update t_contents set

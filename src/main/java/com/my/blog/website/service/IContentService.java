@@ -133,4 +133,12 @@ public interface IContentService {
 	 */
 	List<ContentVo> getCont(String title);
 	
+	/**
+	 * 查询最近添加的20篇文章
+	 * 
+	 * @param String title
+	 * @return List
+	 */
+	List<ContentVo> getNewlyArticles(Integer num);
+	
 }

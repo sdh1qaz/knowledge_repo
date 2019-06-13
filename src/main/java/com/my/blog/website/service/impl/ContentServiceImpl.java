@@ -288,4 +288,14 @@ public class ContentServiceImpl implements IContentService {
 		int hits = contentDao.hitsAddsByOne(cid);
 		return hits;
 	}
+	
+	/**
+	 * 查询最近添加的20篇文章
+	 * 
+	 * @param String title
+	 * @return List
+	 */
+	public List<ContentVo> getNewlyArticles(Integer num){
+		return contentDao.getNewlyArticles(num);
+	}
 }

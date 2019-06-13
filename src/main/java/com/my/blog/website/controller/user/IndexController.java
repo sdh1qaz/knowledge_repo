@@ -133,6 +133,20 @@ public class IndexController extends BaseController {
 		request.setAttribute("articles", articles);
 		return this.render("history");
 	}
+	
+	
+	/**
+	 * 最近添加的20篇文章
+	 * 
+	 * @return json数组[文章名，文章cid}
+	 */
+	@RequestMapping("/user/newly")
+	public String getNewlyArticles(HttpServletRequest request) {
+		//获取最近添加的20篇文章
+		List<ContentVo> articles = contentService.getNewlyArticles(20);
+		request.setAttribute("articles", articles);
+		return this.render("newlyArticles");
+	}
 
 	/**
 	 * 根据题目关键词搜索文章

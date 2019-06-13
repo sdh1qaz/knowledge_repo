@@ -42,6 +42,11 @@ public interface ContentVoMapper {
 
 	List<ContentVo> findByCatalog(Integer mid);
 	
+	/**
+	* @Description: 查询最近添加的num篇文章  
+	 */
+	List<ContentVo> getNewlyArticles(Integer num);
+	
 	//文章的点击数加1
 	int hitsAddsByOne(Integer cid);
 	

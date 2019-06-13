@@ -33,6 +33,8 @@
 			<div class="text-search">
 				<input type="button" class="button-header" id="toDoListutton"
 					onclick="toDoList()" value="待办" /> 
+				<input type="button" class="button-header" id="toDoListutton"
+					onclick="showNewly()" value="最新" /> 
 				<input type="button" class="button-header" id="history"
 					onclick="showHistory()" value="历史" /> 
 				<input type="text"
@@ -85,6 +87,9 @@
 			
 			function showHistory() {
 				window.location.href = '/user/histQ';
+			}
+			function showNewly() {
+				window.location.href = '/user/newly';
 			}
 			$(function() {
 				$.ajax({
