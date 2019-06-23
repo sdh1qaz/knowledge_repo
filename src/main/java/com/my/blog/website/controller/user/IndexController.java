@@ -43,6 +43,7 @@ import com.my.blog.website.service.IContentService;
 import com.my.blog.website.service.IItemVoService;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.ISiteService;
+import com.my.blog.website.service.dbupdate.KnowledgeBagUpdateUtil;
 import com.my.blog.website.service.impl.HistoryQueue;
 import com.my.blog.website.utils.IPKit;
 import com.my.blog.website.utils.PatternKit;
@@ -115,6 +116,16 @@ public class IndexController extends BaseController {
 		return this.index(request, 1, limit);
 	}
 
+	/**
+	 * 数据库同步更新
+	 * @return json数组[文章名，文章cid}
+	 */
+	@RequestMapping("/user/updateDB")
+	public String updateDB(HttpServletRequest request) {
+		KnowledgeBagUpdateUtil.updateLocal();
+		return this.index(request, 1, 12);
+	}
+	
 	/**
 	 * 最近浏览历史的20篇文章
 	 * 

@@ -12,6 +12,7 @@ import com.my.blog.website.model.Vo.ContentVoExample;
 import com.my.blog.website.service.IContentService;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.IRelationshipService;
+import com.my.blog.website.service.dbupdate.KnowledgeBagUpdateUtil;
 import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.TaleUtils;
 import com.my.blog.website.utils.Tools;
@@ -45,7 +46,7 @@ public class ContentServiceImpl implements IContentService {
 
 	@Resource
 	private IMetaService metasService;
-
+	
 	@Override
 	@Transactional
 	public String publish(ContentVo contents) {
@@ -98,6 +99,8 @@ public class ContentServiceImpl implements IContentService {
 		Integer cid = contents.getCid();
 		metasService.saveMetas(cid, tags, Types.TAG.getType());
 		metasService.saveMetas(cid, categories, Types.CATEGORY.getType());
+		//同步数据库
+		KnowledgeBagUpdateUtil.sendLocal();
 		return WebConst.SUCCESS_RESULT;
 	}
 
@@ -213,6 +216,8 @@ public class ContentServiceImpl implements IContentService {
 		if (null != contents) {
 			contentDao.deleteByPrimaryKey(cid);
 			relationshipService.deleteById(cid, null);
+			//同步数据库
+			KnowledgeBagUpdateUtil.sendLocal();
 			return WebConst.SUCCESS_RESULT;
 		}
 		return "数据为空";
@@ -273,6 +278,9 @@ public class ContentServiceImpl implements IContentService {
 		relationshipService.deleteById(cid, null);
 		metasService.saveMetas(cid, contents.getTags(), Types.TAG.getType());
 		metasService.saveMetas(cid, contents.getCategories(), Types.CATEGORY.getType());
+		
+		//同步数据库
+		KnowledgeBagUpdateUtil.sendLocal();
 		return WebConst.SUCCESS_RESULT;
 	}
 

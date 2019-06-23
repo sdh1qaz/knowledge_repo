@@ -1,5 +1,22 @@
 package com.my.blog.website.controller.admin;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
@@ -14,16 +31,6 @@ import com.my.blog.website.model.Vo.UserVo;
 import com.my.blog.website.service.IContentService;
 import com.my.blog.website.service.ILogService;
 import com.my.blog.website.service.IMetaService;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by 13 on 2017/2/21.
@@ -43,6 +50,9 @@ public class ArticleController extends BaseController {
 
 	@Resource
 	private ILogService logService;
+	
+	
+	
 
 	@GetMapping(value = "")
 	public String index(@RequestParam(value = "page", defaultValue = "1") int page,
