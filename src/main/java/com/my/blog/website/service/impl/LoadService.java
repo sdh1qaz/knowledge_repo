@@ -48,7 +48,9 @@ public class LoadService implements CommandLineRunner{
 		for(String cid : cArr) {
 			//获取文章对象
 			ContentVo cont = contentVoDao.selectByPrimaryKey(Integer.valueOf(cid));
-			opList.add(cont);
+			if (cont != null) {
+				opList.add(cont);
+			}
 		}
 		//文章列表添加队列
 		histQ.addAll(opList);
