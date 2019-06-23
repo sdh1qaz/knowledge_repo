@@ -18,6 +18,7 @@ import com.my.blog.website.utils.TaleUtils;
 import com.my.blog.website.utils.Tools;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.error.ShouldBeInSameMinute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ import javax.annotation.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Administrator on 2017/3/13 013.
@@ -46,6 +49,8 @@ public class ContentServiceImpl implements IContentService {
 
 	@Resource
 	private IMetaService metasService;
+	
+	private ExecutorService executorService = Executors.newCachedThreadPool();
 	
 	@Override
 	@Transactional
@@ -100,7 +105,12 @@ public class ContentServiceImpl implements IContentService {
 		metasService.saveMetas(cid, tags, Types.TAG.getType());
 		metasService.saveMetas(cid, categories, Types.CATEGORY.getType());
 		//同步数据库
-		KnowledgeBagUpdateUtil.sendLocal();
+		executorService.submit(new Runnable() {
+			@Override
+			public void run() {
+				KnowledgeBagUpdateUtil.sendLocal();
+			}
+		});
 		return WebConst.SUCCESS_RESULT;
 	}
 
@@ -216,8 +226,13 @@ public class ContentServiceImpl implements IContentService {
 		if (null != contents) {
 			contentDao.deleteByPrimaryKey(cid);
 			relationshipService.deleteById(cid, null);
-			//同步数据库
-			KnowledgeBagUpdateUtil.sendLocal();
+			executorService.submit(new Runnable() {
+				@Override
+				public void run() {
+					//同步数据库
+					KnowledgeBagUpdateUtil.sendLocal();
+				}
+			});
 			return WebConst.SUCCESS_RESULT;
 		}
 		return "数据为空";
@@ -279,8 +294,13 @@ public class ContentServiceImpl implements IContentService {
 		metasService.saveMetas(cid, contents.getTags(), Types.TAG.getType());
 		metasService.saveMetas(cid, contents.getCategories(), Types.CATEGORY.getType());
 		
-		//同步数据库
-		KnowledgeBagUpdateUtil.sendLocal();
+		executorService.submit(new Runnable() {
+			@Override
+			public void run() {
+				//同步数据库
+				KnowledgeBagUpdateUtil.sendLocal();
+			}
+		});
 		return WebConst.SUCCESS_RESULT;
 	}
 

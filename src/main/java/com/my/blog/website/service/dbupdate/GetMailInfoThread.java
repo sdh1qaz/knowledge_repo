@@ -12,7 +12,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 /**
- * 用于获取邮箱中邮件信息的线程
+ * 获取邮箱中邮件信息
  * 
  * @author lupf
  *

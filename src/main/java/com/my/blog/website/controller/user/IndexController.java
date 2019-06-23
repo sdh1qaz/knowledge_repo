@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -72,6 +74,8 @@ public class IndexController extends BaseController {
 	@Resource
 	private HistoryQueue<ContentVo> histQ;
 	
+	private ExecutorService executorService = Executors.newCachedThreadPool();
+	
 	//判断队列中是否已有这个文章
 	public boolean isHasCont(ContentVo contentVo) {
 		boolean is = false;
@@ -122,7 +126,12 @@ public class IndexController extends BaseController {
 	 */
 	@RequestMapping("/user/updateDB")
 	public String updateDB(HttpServletRequest request) {
-		KnowledgeBagUpdateUtil.updateLocal();
+		executorService.submit(new Runnable() {
+			@Override
+			public void run() {
+				KnowledgeBagUpdateUtil.updateLocal();
+			}
+		});
 		return this.index(request, 1, 12);
 	}
 	
