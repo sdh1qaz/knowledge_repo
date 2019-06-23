@@ -44,6 +44,10 @@ public class SchedulService {
 		StringBuffer cidStr = new StringBuffer();
 		while (iterator.hasNext()) {
 			ContentVo c = iterator.next();
+			if (c == null) {
+				LOGGER.info("定时任务：浏览历史列表中的文章cid更新到数据库完成。。。");
+				return;
+			}
 			cidStr.append(c.getCid() + "-");
 		}
 		//将cidStr更新到数据库中
