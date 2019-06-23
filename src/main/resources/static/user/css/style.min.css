@@ -511,8 +511,8 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /*首页搜索框的样式*/
 .text-search {
 	position: fixed;
-	width: 560px;
-	left: 38%;
+	width: 600px;
+	left: 36%;
 	top: -15px;
 	height: 65px;
 	text-align: left;

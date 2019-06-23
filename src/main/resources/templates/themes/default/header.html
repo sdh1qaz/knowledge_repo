@@ -37,6 +37,8 @@
 					onclick="showNewly()" value="最新" /> 
 				<input type="button" class="button-header" id="history"
 					onclick="showHistory()" value="历史" /> 
+				<input type="button" class="button-header" id="history"
+					onclick="updateDB()" value="同步" /> 
 				<input type="text"
 					id="search-inp" placeholder="请输入关键字..." /> <input type="button"
 					class="button-header" id="searchButton" onclick="searchBykeyWord()"
@@ -87,6 +89,15 @@
 			
 			function showHistory() {
 				window.location.href = '/user/histQ';
+			}
+			//同步数据库
+			function updateDB() {
+				$.ajax({
+					url : "/user/updateDB",
+					type : "GET",
+					success : function(data) {
+					}
+				});
 			}
 			function showNewly() {
 				window.location.href = '/user/newly';
