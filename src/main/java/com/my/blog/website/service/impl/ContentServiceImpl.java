@@ -50,8 +50,6 @@ public class ContentServiceImpl implements IContentService {
 	@Resource
 	private IMetaService metasService;
 	
-	private ExecutorService executorService = Executors.newCachedThreadPool();
-	
 	@Override
 	@Transactional
 	public String publish(ContentVo contents) {
@@ -104,13 +102,6 @@ public class ContentServiceImpl implements IContentService {
 		Integer cid = contents.getCid();
 		metasService.saveMetas(cid, tags, Types.TAG.getType());
 		metasService.saveMetas(cid, categories, Types.CATEGORY.getType());
-		//同步数据库
-		executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-				KnowledgeBagUpdateUtil.sendLocal();
-			}
-		});
 		return WebConst.SUCCESS_RESULT;
 	}
 
@@ -226,13 +217,6 @@ public class ContentServiceImpl implements IContentService {
 		if (null != contents) {
 			contentDao.deleteByPrimaryKey(cid);
 			relationshipService.deleteById(cid, null);
-			executorService.submit(new Runnable() {
-				@Override
-				public void run() {
-					//同步数据库
-					KnowledgeBagUpdateUtil.sendLocal();
-				}
-			});
 			return WebConst.SUCCESS_RESULT;
 		}
 		return "数据为空";
@@ -294,13 +278,6 @@ public class ContentServiceImpl implements IContentService {
 		metasService.saveMetas(cid, contents.getTags(), Types.TAG.getType());
 		metasService.saveMetas(cid, contents.getCategories(), Types.CATEGORY.getType());
 		
-		executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-				//同步数据库
-				KnowledgeBagUpdateUtil.sendLocal();
-			}
-		});
 		return WebConst.SUCCESS_RESULT;
 	}
 

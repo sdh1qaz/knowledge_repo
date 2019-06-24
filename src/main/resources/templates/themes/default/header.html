@@ -32,17 +32,16 @@
 
 			<div class="text-search">
 				<input type="button" class="button-header" id="toDoListutton"
-					onclick="toDoList()" value="待办" /> 
-				<input type="button" class="button-header" id="toDoListutton"
-					onclick="showNewly()" value="最新" /> 
-				<input type="button" class="button-header" id="history"
-					onclick="showHistory()" value="历史" /> 
-				<input type="button" class="button-header" id="history"
-					onclick="updateDB()" value="同步" /> 
-				<input type="text"
-					id="search-inp" placeholder="请输入关键字..." /> <input type="button"
-					class="button-header" id="searchButton" onclick="searchBykeyWord()"
-					value="搜索" />
+					onclick="toDoList()" value="待办" /> <input type="button"
+					class="button-header" id="toDoListutton" onclick="showNewly()"
+					value="最新" /> <input type="button" class="button-header"
+					id="history" onclick="showHistory()" value="历史" /> <input
+					type="button" class="button-header" id="history"
+					onclick="updateDB()" value="更新" /> <input type="button"
+					class="button-header" id="history" onclick="pushDB()" value="同步" />
+				<input type="text" id="search-inp" placeholder="请输入关键字..." /> <input
+					type="button" class="button-header" id="searchButton"
+					onclick="searchBykeyWord()" value="搜索" />
 				<!-- 输入框自动提示的div -->
 				<div id="auto_div"></div>
 			</div>
@@ -86,12 +85,15 @@
 			function toDoList() {
 				window.location.href = '/user/listItems';
 			}
-			
+
 			function showHistory() {
 				window.location.href = '/user/histQ';
 			}
-			//同步数据库
+			//更新数据库
 			function updateDB() {
+				if (!window.confirm('确定要更新数据库？刚添加的文章可能被覆盖')) {
+					return;
+				}
 				$.ajax({
 					url : "/user/updateDB",
 					type : "GET",
@@ -99,6 +101,19 @@
 					}
 				});
 			}
+			//备份、同步数据库
+			function pushDB() {
+				if (!window.confirm('确定要备份数据库并且发送邮件？')) {
+					return;
+				}
+				$.ajax({
+					url : "/user/pushDB",
+					type : "GET",
+					success : function(data) {
+					}
+				});
+			}
+
 			function showNewly() {
 				window.location.href = '/user/newly';
 			}

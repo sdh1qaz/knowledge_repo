@@ -121,7 +121,7 @@ public class IndexController extends BaseController {
 	}
 
 	/**
-	 * 数据库同步更新
+	 * 数据库更新
 	 * @return json数组[文章名，文章cid}
 	 */
 	@RequestMapping("/user/updateDB")
@@ -130,6 +130,21 @@ public class IndexController extends BaseController {
 			@Override
 			public void run() {
 				KnowledgeBagUpdateUtil.updateLocal();
+			}
+		});
+		return this.index(request, 1, 12);
+	}
+	
+	/**
+	 * 数据库同步
+	 * @return json数组[文章名，文章cid}
+	 */
+	@RequestMapping("/user/pushDB")
+	public String pushDB(HttpServletRequest request) {
+		executorService.submit(new Runnable() {
+			@Override
+			public void run() {
+				KnowledgeBagUpdateUtil.sendLocal();
 			}
 		});
 		return this.index(request, 1, 12);
