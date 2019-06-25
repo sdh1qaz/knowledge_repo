@@ -18,7 +18,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.my.blog.website.dao.OptionVoMapper;
 import com.my.blog.website.model.Vo.ContentVo;
 import com.my.blog.website.model.Vo.OptionVo;
