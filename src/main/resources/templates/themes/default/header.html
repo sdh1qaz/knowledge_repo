@@ -98,6 +98,9 @@
 					url : "/user/updateDB",
 					type : "GET",
 					success : function(data) {
+						if(data=='ok'){
+							alert("更新成功！");
+						}
 					}
 				});
 			}
@@ -110,6 +113,9 @@
 					url : "/user/pushDB",
 					type : "GET",
 					success : function(data) {
+						if(data=='ok'){
+							alert("发送成功！");
+						}
 					}
 				});
 			}

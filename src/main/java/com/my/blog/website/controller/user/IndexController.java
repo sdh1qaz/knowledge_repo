@@ -125,14 +125,14 @@ public class IndexController extends BaseController {
 	 * @return json数组[文章名，文章cid}
 	 */
 	@RequestMapping("/user/updateDB")
-	public String updateDB(HttpServletRequest request) {
+	public @ResponseBody String updateDB(HttpServletRequest request) {
 		executorService.submit(new Runnable() {
 			@Override
 			public void run() {
 				KnowledgeBagUpdateUtil.updateLocal();
 			}
 		});
-		return this.index(request, 1, 12);
+		return "ok";
 	}
 	
 	/**
@@ -140,14 +140,15 @@ public class IndexController extends BaseController {
 	 * @return json数组[文章名，文章cid}
 	 */
 	@RequestMapping("/user/pushDB")
-	public String pushDB(HttpServletRequest request) {
+	//@ResponseBody 是向前台返回json数据，而不是视图名
+	public @ResponseBody String pushDB(HttpServletRequest request) {
 		executorService.submit(new Runnable() {
 			@Override
 			public void run() {
 				KnowledgeBagUpdateUtil.sendLocal();
 			}
 		});
-		return this.index(request, 1, 12);
+		return "ok";
 	}
 	
 	/**
