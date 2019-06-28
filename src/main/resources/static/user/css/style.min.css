@@ -509,7 +509,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /*首页搜索框的样式*/
 .text-search {
 	position: fixed;
-	width: 45%;
+	width: 50%;
 	left: 30%;
 	top: -15px;
 	height: 65px;
