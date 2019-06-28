@@ -227,3 +227,11 @@ $(function() {
 		AutoComplete("auto_div", "search-inp", test_list);
 	});
 });
+
+//休眠XX毫秒
+function sleep(delay) {
+	var start = (new Date()).getTime();
+	while ((new Date()).getTime() - start < delay) {
+		continue;
+	}
+}

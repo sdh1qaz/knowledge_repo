@@ -94,6 +94,7 @@
 				if (!window.confirm('确定要更新数据库？刚添加的文章可能被覆盖')) {
 					return;
 				}
+				sleep(500);//停1秒
 				if (!window.confirm('请再次确认！')) {
 					return;
 				}
@@ -112,6 +113,7 @@
 				if (!window.confirm('确定要备份数据库并且发送邮件？')) {
 					return;
 				}
+				sleep(500);//停1秒
 				if (!window.confirm('请再次确认！')) {
 					return;
 				}
@@ -125,6 +127,7 @@
 					}
 				});
 			}
+
 
 			function showNewly() {
 				window.location.href = '/user/newly';
