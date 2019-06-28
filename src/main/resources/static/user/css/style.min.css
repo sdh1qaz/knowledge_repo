@@ -954,7 +954,7 @@ input {
 	overflow: hidden;
 	max-width: 100%;
 	height: auto;
-	margin: 0 auto
+	margin: 0 0
 }
 
 .post-content input.text {
