@@ -510,7 +510,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .text-search {
 	position: fixed;
 	width: 45%;
-	left: 34%;
+	left: 30%;
 	top: -15px;
 	height: 65px;
 	text-align: left;
