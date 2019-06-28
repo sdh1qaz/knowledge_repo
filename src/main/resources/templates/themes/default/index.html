@@ -7,7 +7,7 @@
 			<div class="post-lists-body">
 				<div class="post-list-item" th:each="article: ${articles.list}">
 					<div class="post-list-item-container">
-						<div class="item-label">
+						<div class="item-label" style="padding-left: 5px;">
 							<div class="item-title">
 								<a th:href="${commons.permalink(article)}"
 									th:text="${article.title + ' -- ' + article.hits + ' hits'}"></a>

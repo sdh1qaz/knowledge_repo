@@ -848,6 +848,7 @@ input {
 .post-list-item-container .item-label .item-title a {
 	font-size: 20px;
 	line-height: 20px;
+	
 	word-break: break-all;
 	color: blue
 }
@@ -1871,7 +1872,11 @@ input {
 
 
 
+
+
 :translateY(0)
+
+
 
 
 
@@ -1906,7 +1911,11 @@ keyframes slideDown { 0%{
 
 
 
+
+
 :translateY(0)
+
+
 
 
 
@@ -1933,7 +1942,11 @@ transform
 
 
 
+
+
 :translateY(0)
+
+
 
 
 
@@ -1967,7 +1980,11 @@ transform
 
 
 
+
+
 :translateY(-80px)
+
+
 
 
 
@@ -2002,7 +2019,11 @@ keyframes slideUp { 0%{
 
 
 
+
+
 :translateY(-80px)
+
+
 
 
 
@@ -2029,7 +2050,11 @@ transform
 
 
 
+
+
 :translateY(-80px)
+
+
 
 
 
@@ -2064,7 +2089,11 @@ transform
 
 
 
+
+
 :translateY(0)
+
+
 
 
 
@@ -2091,7 +2120,11 @@ opacity
 
 
 
+
+
 :
+
+
 
 
 
@@ -2126,7 +2159,11 @@ opacity
 
 
 
+
+
 :translateY(0)
+
+
 
 
 
@@ -2153,7 +2190,11 @@ opacity
 
 
 
+
+
 :
+
+
 
 
 
