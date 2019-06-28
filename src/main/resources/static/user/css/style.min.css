@@ -13,18 +13,16 @@
 
 .button-header {
 	height: 30px;
-	width: 60px;
+	width: 8%;
 	color: #333;
 	background: #2ee5e6;
 	display: inline-block;
 	position: relative;
 	margin: 5px;
-	padding: 0 20px;
 	text-align: center;
 	text-decoration: none;
 	font: bold 12px/25px Arial, sans-serif;
 	text-shadow: 1px 1px 1px rgba(255, 255, 255, .22);
-	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
 	border-radius: 30px;
 	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, .29), inset 1px 1px 1px
@@ -511,7 +509,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /*首页搜索框的样式*/
 .text-search {
 	position: fixed;
-	width: 680px;
+	width: 45%;
 	left: 34%;
 	top: -15px;
 	height: 65px;
@@ -533,14 +531,12 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 	line-height: 30px;
 	position: absolute;
 	top: 35%;
-	left: 0;
 	display: block;
-	width: auto;
 	max-width: 50%;
-	width: 170px;
+	width: 15%;
 	height: 50px;
 	margin-top: -15px;
-	left: 40px;
+	left: 20px;
 	text-decoration: none
 }
 
@@ -900,7 +896,7 @@ input {
 }
 
 .post-page {
-	max-width: 800px;
+	max-width: 76%;
 	padding: 80px 25px 20px;
 }
 

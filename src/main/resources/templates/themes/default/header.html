@@ -35,13 +35,13 @@
 					onclick="toDoList()" value="待办" /> <input type="button"
 					class="button-header" id="toDoListutton" onclick="showNewly()"
 					value="最新" /> <input type="button" class="button-header"
-					id="history" onclick="showHistory()" value="历史" /> <input
-					type="button" class="button-header" id="history"
-					onclick="updateDB()" value="更新" /> <input type="button"
-					class="button-header" id="history" onclick="pushDB()" value="同步" />
-				<input type="text" id="search-inp" placeholder="请输入关键字..." /> <input
-					type="button" class="button-header" id="searchButton"
-					onclick="searchBykeyWord()" value="搜索" />
+					onclick="showHistory()" value="历史" /> <input type="button"
+					class="button-header" id="history" onclick="updateDB()" value="更新" />
+				<input type="button" class="button-header" onclick="pushDB()"
+					value="同步" /> <input type="text" id="search-inp"
+					placeholder="请输入关键字..." /> <input type="button"
+					class="button-header" id="searchButton" onclick="searchBykeyWord()"
+					value="搜索" />
 				<!-- 输入框自动提示的div -->
 				<div id="auto_div"></div>
 			</div>
@@ -94,11 +94,14 @@
 				if (!window.confirm('确定要更新数据库？刚添加的文章可能被覆盖')) {
 					return;
 				}
+				if (!window.confirm('请再次确认！')) {
+					return;
+				}
 				$.ajax({
 					url : "/user/updateDB",
 					type : "GET",
 					success : function(data) {
-						if(data=='ok'){
+						if (data == 'ok') {
 							alert("更新成功！");
 						}
 					}
@@ -109,11 +112,14 @@
 				if (!window.confirm('确定要备份数据库并且发送邮件？')) {
 					return;
 				}
+				if (!window.confirm('请再次确认！')) {
+					return;
+				}
 				$.ajax({
 					url : "/user/pushDB",
 					type : "GET",
 					success : function(data) {
-						if(data=='ok'){
+						if (data == 'ok') {
 							alert("发送成功！");
 						}
 					}
