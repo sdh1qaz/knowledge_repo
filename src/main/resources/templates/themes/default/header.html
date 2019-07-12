@@ -67,8 +67,8 @@
 					}
 				});
 			}
-			//设置定时器，每5分钟提醒一次设置了提醒时间的事项
-			var timer1 = self.setInterval("remind1()", 1000 * 60 * 5);
+			//设置定时器，每30分钟提醒一次设置了提醒时间的事项
+			var timer1 = self.setInterval("remind1()", 1000 * 60 * 30);
 			function remind1() {
 				$.ajax({
 					url : "/user/items/getDueItems",
