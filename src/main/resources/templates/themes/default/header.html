@@ -41,7 +41,8 @@
 					value="同步" /> <input type="text" id="search-inp"
 					placeholder="请输入关键字..." /> <input type="button"
 					class="button-header" id="searchButton" onclick="searchBykeyWord()"
-					value="搜索" />
+					value="搜索" /> <input type="button" class="button-header"
+					id="esSearchButton" onclick="searchESBykeyWord()" value="ES搜索" />
 				<!-- 输入框自动提示的div -->
 				<div id="auto_div"></div>
 			</div>
@@ -51,6 +52,11 @@
 			function searchBykeyWord() {
 				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字
 				window.location.href = '/user/search?keyword=' + keyword;
+			}
+			//es搜索
+			function searchESBykeyWord() {
+				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字
+				window.location.href = '/search/multior/' + keyword;
 			}
 			//设置定时器，每12分钟提醒一次是否有待办事项
 			var timer = self.setInterval("remind()", 1000 * 60 * 30);

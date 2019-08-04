@@ -9,13 +9,15 @@ import org.springframework.data.elasticsearch.annotations.Document;
  */
 
 //@Document表示这是一个Elastic Data,indexName和type对应es中的index（索引）和type（类型）
-@Document(indexName="knowledge_bag",type="article")
+@Document(indexName="konwledge_bag_0805",type="article")
 public class ArticleEntity {
 	
 	@Id//声明文档的主键
 	private String id;//文章cid
 	private String title;//文章标题
 	private String content;//文章内容
+	private String hits;//点击
+	private String cid;
 	
 	
 	public String getId() {
@@ -35,6 +37,18 @@ public class ArticleEntity {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getHits() {
+		return hits;
+	}
+	public void setHits(String hits) {
+		this.hits = hits;
+	}
+	public String getCid() {
+		return cid;
+	}
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
 	
 }
