@@ -8,11 +8,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 运行Sql脚本 sql脚本放在resources下的sql文件夹下
  */
 public final class RunSqlScript {
+	private static final Logger LOGGER = LoggerFactory.getLogger(RunSqlScript.class);
 	
 	/**
 	 * 运行指定的sql脚本
@@ -32,9 +35,9 @@ public final class RunSqlScript {
 			// 关闭连接
 			conn.close();
 			// 若成功，打印提示信息
-			System.out.println("====== 数据库同步完成 ======");
+			LOGGER.info("====== 数据库更新完成 ======");
 		} catch (IOException | SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("数据库更新出错：" + e.getMessage());
 		}
 	}
 }

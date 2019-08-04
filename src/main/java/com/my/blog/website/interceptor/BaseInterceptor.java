@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 自定义拦截器 Created by BlueT on 2017/3/9.
+ * 拦截器
  */
 @Component
 public class BaseInterceptor implements HandlerInterceptor {

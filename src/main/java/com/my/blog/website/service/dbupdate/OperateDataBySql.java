@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class OperateDataBySql {
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(OperateDataBySql.class);
 	
 	/**
 	 * 实现数据库的导出（方法2）
@@ -35,8 +38,8 @@ public class OperateDataBySql {
 			br.close();
 			return outStr;
 		} catch (Exception e) {
-			e.printStackTrace();
-			outStr = "发生了异常";
+			outStr = "Dump数据库发生了异常,错误信息：" + e.getMessage();
+			LOGGER.error("Dump数据库出错",e);
 		}
 		return outStr;
 	}

@@ -3,12 +3,17 @@ package com.my.blog.website.service.dbupdate;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.my.blog.website.controller.GlobalExceptionHandler;
 /**
  * java操作qq邮箱收发邮件
  * 
  * @author SuDenghui
  */
 public class SendQQemailByJava {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SendQQemailByJava.class);
 
 	/**
 	 * 本地本分数据上传，发送邮件
@@ -65,11 +70,10 @@ public class SendQQemailByJava {
 			email.setMsg(emailPojo.getMsg());//"邮件内容"
 			// 发送
 			email.send();
-			System.out.println("邮件发送成功!");
+			LOGGER.info("数据库同步邮件发送成功!");
+			System.out.println("");
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("邮件发送失败!");
+			LOGGER.error("数据库同步邮件发送失败!",e);
 		}
 	}
 }
