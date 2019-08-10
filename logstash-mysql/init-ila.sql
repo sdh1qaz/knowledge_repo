@@ -1,0 +1,1 @@
+select * from t_contents where modified > :sql_last_value
