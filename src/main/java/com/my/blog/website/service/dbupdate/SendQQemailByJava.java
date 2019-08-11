@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.my.blog.website.controller.GlobalExceptionHandler;
 /**
  * java操作qq邮箱收发邮件
  * 
@@ -46,6 +45,22 @@ public class SendQQemailByJava {
 	/*
 	 * 发送邮件
 	 */
+	public  static void sendEmail(String msg,String subject) {
+		EmailPojo ep = new EmailPojo();
+		ep.setHostname("smtp.qq.com");
+		ep.setPort(465);
+		ep.setSendEmail(Constants.sendEmail);
+		ep.setReceiveEmail(Constants.readEmail);
+		ep.setAuth(Constants.authpwd);
+		ep.setSubJect(subject);
+		ep.setSendName(Constants.sendName);
+		ep.setMsg(msg);
+		sendEmail(ep);
+	}
+	
+	/*
+	 * 发送邮件
+	 */
 	public static void sendEmail(EmailPojo emailPojo) {
 		// 不要使用SimpleEmail,会出现乱码问题
 		HtmlEmail email = new HtmlEmail();
@@ -70,10 +85,9 @@ public class SendQQemailByJava {
 			email.setMsg(emailPojo.getMsg());//"邮件内容"
 			// 发送
 			email.send();
-			LOGGER.info("数据库同步邮件发送成功!");
-			System.out.println("");
+			LOGGER.info("邮件发送成功!");
 		} catch (EmailException e) {
-			LOGGER.error("数据库同步邮件发送失败!",e);
+			LOGGER.error("邮件发送失败!",e);
 		}
 	}
 }

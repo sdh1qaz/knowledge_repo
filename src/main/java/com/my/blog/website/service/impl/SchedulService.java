@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -18,10 +19,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.my.blog.website.dao.ItemVoMapper;
 import com.my.blog.website.dao.OptionVoMapper;
 import com.my.blog.website.model.Vo.ContentVo;
+import com.my.blog.website.model.Vo.ItemVo;
 import com.my.blog.website.model.Vo.OptionVo;
 import com.my.blog.website.service.dbupdate.OperateDataBySql;
+import com.my.blog.website.service.dbupdate.SendQQemailByJava;
 
 /**
  * @ClassName： SchedulService
@@ -34,6 +38,9 @@ import com.my.blog.website.service.dbupdate.OperateDataBySql;
 @EnableScheduling
 public class SchedulService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulService.class);
+	
+	@Resource
+	private ItemVoMapper itemDao;
 	
 	@Resource
 	private HistoryQueue<ContentVo> histQ;
@@ -89,6 +96,28 @@ public class SchedulService {
 		outputStream.write(sql.getBytes());
 		outputStream.close();
 		LOGGER.info("定时任务：生成数据库备份的sql文件完成。。。");
+	}
+	
+	/**
+	 * 每天09:20读取代办事项，发送一封邮件到我的qq邮箱
+	 * @throws IOException 
+	 */
+	@Scheduled(cron = "0 20 9 * * ?")
+	public void sendItemsByQQMail() throws IOException {
+		//获取代办事项
+		List<ItemVo> items = itemDao.selectAll();
+		StringBuilder sb = new StringBuilder();
+		int size = items.size();
+		if (size < 1) {
+			return;
+		}
+		for(int i=0;i<size;i++) {
+			sb.append((i+1) + "、" + items.get(i).getCont() + "\n");
+		}
+		LOGGER.info("定时任务：发送代办事项到qq邮箱开始。。。");
+		String msg = sb.toString();
+		SendQQemailByJava.sendEmail(msg,"代办事项提醒！");
+		LOGGER.info("定时任务：发送代办事项到qq邮箱完成。。。");
 	}
 	
 }
