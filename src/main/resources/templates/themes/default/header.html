@@ -43,6 +43,8 @@
 					class="button-header" id="searchButton" onclick="searchBykeyWord()"
 					value="搜索" /> --> <input type="button" class="button-header"
 					id="esSearchButton" onclick="searchESBykeyWord()" value="搜索" />
+					<input type="button" class="button-header"
+					id="logoutButton" onclick="logout()" value="退出" />
 				<!-- 输入框自动提示的div -->
 				<div id="auto_div"></div>
 			</div>
@@ -53,6 +55,12 @@
 				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字
 				window.location.href = '/user/search?keyword=' + keyword;
 			} */
+			
+			//退出
+			function logout(){
+				window.location.href = '/user/logout';
+			}
+			
 			//es搜索
 			function searchESBykeyWord() {
 				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字

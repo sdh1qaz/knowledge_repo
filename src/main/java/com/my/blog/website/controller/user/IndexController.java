@@ -109,6 +109,15 @@ public class IndexController extends BaseController {
 		//返回登录页面
 		return this.render("login");
 	}
+	
+	//用户登录小书包
+	@RequestMapping("/user/logout")
+	public String logout(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		request.getSession().removeAttribute(WebConst.LOGIN_SESSION_KEY);
+		LOGGER.info("前台用户退出。。。");
+		//返回登录页面
+		return this.render("login");
+	}
 
 	/**
 	 * 首页
