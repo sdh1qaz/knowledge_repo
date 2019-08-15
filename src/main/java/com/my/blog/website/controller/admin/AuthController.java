@@ -43,7 +43,8 @@ public class AuthController extends BaseController {
 	public String login() {
 		return "admin/login";
 	}
-
+	
+	
 	@PostMapping(value = "login")
 	@ResponseBody
 	public RestResponseBo doLogin(@RequestParam String username, @RequestParam String password,

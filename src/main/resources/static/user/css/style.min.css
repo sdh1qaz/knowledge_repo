@@ -41,12 +41,12 @@
 #auto_div {
 	display: none;
 	width: 300px;
-	border: 1px #74c0f9 solid;
+	border: 1px #155eca  solid;
 	background: #FFF;
 	position: absolute;
 	top: 60px;
-	left: 370px;
-	color: #323232;
+	left: 40%;
+	color: #150202;
 }
 
 *, :after, :before {
