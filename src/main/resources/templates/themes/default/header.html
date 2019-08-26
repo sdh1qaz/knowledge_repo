@@ -32,7 +32,10 @@
 
 			<div class="text-search">
 				<input type="button" class="button-header" id="toDoListutton"
-					onclick="toDoList()" value="待办" /> <input type="button"
+					onclick="toDoList()" value="待办" /> 
+					<input type="button" class="button-header" id="toDoListutton"
+					onclick="doneList()" value="已办" />
+					<input type="button"
 					class="button-header" id="toDoListutton" onclick="showNewly()"
 					value="最新" /> <input type="button" class="button-header"
 					onclick="showHistory()" value="历史" /> <input type="button"
@@ -96,9 +99,17 @@
 					}
 				});
 			}
+			//点击待办按钮
 			function toDoList() {
 				window.location.href = '/user/listItems';
 			}
+			
+			//点击已办按钮
+			function doneList() {
+				window.location.href = '/user/listDoneItems';
+			}
+			
+			doneList
 
 			function showHistory() {
 				window.location.href = '/user/histQ';

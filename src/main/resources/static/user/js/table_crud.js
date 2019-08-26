@@ -49,7 +49,7 @@ $("#addAndUpdate").on("hidden.bs.modal", function() {
 
 // 删除除一行按钮点击事件
 function delData(id) {
-	layer.confirm('itemId=' + id + '的数据?', {
+	layer.confirm('确定这个待办已完成？', {
 		icon : 3,
 		title : '提示'
 	}, function() {

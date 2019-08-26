@@ -8,28 +8,41 @@
 		<result column="creat_time" jdbcType="INTEGER" property="creatTime" />
 		<result column="person" jdbcType="VARCHAR" property="person" />
 		<result column="priority" jdbcType="VARCHAR" property="priority" />
-		<result column="remind_time" jdbcType="INTEGER" property="remindTime"/>
+		<result column="remind_time" jdbcType="INTEGER" property="remindTime" />
+		<result column="done_time" jdbcType="INTEGER" property="doneTime" />
+		<result column="is_done" jdbcType="VARCHAR" property="isDone" />
 	</resultMap>
-	
+
 	<!-- 查 -->
 	<select id="selectAll" resultMap="BaseResultMap">
-		select * from t_items ORDER by creat_time DESC 
+		select * from t_items where
+		is_done != 'Y' ORDER by creat_time DESC
 	</select>
-	
+
+	<!-- 查 -->
+	<select id="selectAllDone" resultMap="BaseResultMap">
+		select * from t_items where
+		is_done = 'Y' ORDER by creat_time DESC
+	</select>
+
 	<!-- 删 -->
 	<delete id="deleteByItemId" parameterType="java.lang.Integer">
-		delete from t_items where itemId = #{itemId,jdbcType=INTEGER}
+		update t_items set
+		is_done = 'Y',done_time = unix_timestamp(now()) where itemId =
+		#{itemId,jdbcType=INTEGER}
 	</delete>
-	
+
 	<!-- 增 -->
 	<insert id="insert" parameterType="com.my.blog.website.model.Vo.ItemVo"
 		useGeneratedKeys="true" keyProperty="itemId">
-		insert into t_items ( cont ,deadline, creat_time, person,priority,remind_time)
-		values (#{cont,jdbcType=VARCHAR}, #{deadLine,jdbcType=VARCHAR},
+		insert into t_items ( cont
+		,deadline, creat_time, person,priority,remind_time,is_done)
+		values
+		(#{cont,jdbcType=VARCHAR}, #{deadLine,jdbcType=VARCHAR},
 		#{creatTime,jdbcType=INTEGER},#{person,jdbcType=VARCHAR},#{priority,jdbcType=VARCHAR},
-		#{remindTime,jdbcType=INTEGER})
+		#{remindTime,jdbcType=INTEGER},'N')
 	</insert>
-	
+
 	<!-- 改 -->
 	<update id="updateByItemId" parameterType="map">
 		update t_items
@@ -46,10 +59,10 @@
 			<if test="itemVo.priority != null">
 				priority = #{itemVo.priority,jdbcType=VARCHAR},
 			</if>
-			
-				remind_time = #{itemVo.remindTime,jdbcType=INTEGER},
+
+			remind_time = #{itemVo.remindTime,jdbcType=INTEGER},
 		</set>
 		where itemId = #{itemVo.itemId,jdbcType=INTEGER}
 	</update>
-	
+
 </mapper>

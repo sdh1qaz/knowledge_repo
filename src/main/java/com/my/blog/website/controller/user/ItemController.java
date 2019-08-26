@@ -158,4 +158,29 @@ public class ItemController {
 		return sb.toString();
 	}
 	
+	//返回所有待办
+	@RequestMapping(value = "/getItemsDone", method = RequestMethod.POST)
+	public Pages<ItemVo> getItemsDone(HttpServletRequest request){
+		String limit = request.getParameter("limit");
+		String nowPage = request.getParameter("nowPage");
+		
+		// 当前页数
+		int nowPaged = Integer.parseInt(null == nowPage ? "1" : nowPage);
+		// 每页显示页数
+		int limitd = Integer.parseInt(null == limit ? "10" : limit);
+		Pages<ItemVo> pages = new Pages<>();
+		// 开始分页,参数1为请求第几页,参数2为请求条数
+		PageHelper.startPage(nowPaged, limitd);
+		List<ItemVo> items = iItemVoService.getAllItemsDone();
+		// 取记录总条数
+		PageInfo<ItemVo> pageInfo = new PageInfo<>(items);
+		int total = (int) pageInfo.getTotal();
+		pages.setSuccess(true);
+		pages.setMsg("共查询出" + total + "条数据!");
+		pages.setRecords(items);
+		pages.setTotal(total);
+		pages.setStatus(0);
+		return pages;
+	}
+	
 }

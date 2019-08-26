@@ -27,10 +27,24 @@ public interface IItemVoService {
 	PageInfo<ItemVo> getItems(Integer p, Integer limit);
 	
 	/**
+	 * 查询已办返回多条数据
+	 * @param p 当前页
+	 * @param limit 每页条数
+	 * @return PageInfo<ItemVo>
+	 */
+	PageInfo<ItemVo> getDoneItems(Integer p, Integer limit);
+	
+	/**
 	 * 查询所有待办
 	 * @return List<ItemVo>
 	 */
 	List<ItemVo> getAllItems();
+	
+	/**
+	 * 查询所有已办
+	 * @return List<ItemVo>
+	 */
+	List<ItemVo> getAllItemsDone();
 	
 	/**
 	 * 新增一条待办

@@ -39,6 +39,18 @@ public class ItemVoServiceImpl implements IItemVoService{
 	}
 	
 	/**
+	 * 查询已办返回多条数据
+	 * @param p 当前页
+	 * @param limit 每页条数
+	 * @return PageInfo<ItemVo>
+	 */
+	public PageInfo<ItemVo> getDoneItems(Integer p, Integer limit){
+		PageHelper.startPage(p, limit);
+		List<ItemVo> items = itemDao.selectAllDone();
+		return new PageInfo<>(items);
+	}
+	
+	/**
 	 * 查询所有待办返回
 	 * @return List<ItemVo>
 	 */
@@ -68,6 +80,14 @@ public class ItemVoServiceImpl implements IItemVoService{
 	 */
 	public int updateByItemId(@Param("itemVo") ItemVo itemVo) {
 		return itemDao.updateByItemId(itemVo);
+	}
+	
+	/**
+	 * 查询所有已办
+	 * @return List<ItemVo>
+	 */
+	public List<ItemVo> getAllItemsDone(){
+		return itemDao.selectAllDone();
 	}
 
 }

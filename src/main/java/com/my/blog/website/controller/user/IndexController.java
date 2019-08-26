@@ -242,6 +242,20 @@ public class IndexController extends BaseController {
 		request.setAttribute("pageInfo", pageInfo);
 		return this.render("items");
 	}
+	
+	/**
+	 * 已办按钮响应
+	 * 
+	 * @return 待办页面
+	 */
+	@RequestMapping("user/listDoneItems")
+	public String listDone(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+		PageInfo<ItemVo> pageInfo = itemVoService.getDoneItems(1, limit);
+		request.setAttribute("pageInfo", pageInfo);
+		return this.render("items_done");
+	}
+	
+	
 
 	@GetMapping(value = "user/search/{keyword}/{page}")
 	public String listPageSearchResut(HttpServletRequest request, @PathVariable String keyword, @PathVariable int page,

@@ -26,5 +26,7 @@ public interface ItemVoMapper {
 	//更新一条待办
 	int updateByItemId(@Param("itemVo") ItemVo itemVo);
 	
+	//查询所有已办
+	List<ItemVo> selectAllDone();
 	
 }
