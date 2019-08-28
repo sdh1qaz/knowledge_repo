@@ -110,6 +110,15 @@
 			<script th:src="@{http://127.0.0.1:8687/user/js/laydate/laydate.js}"></script>
 			<script th:src="@{http://127.0.0.1:8687/user/js/table_done.js}"></script>
 			<script th:src="@{http://127.0.0.1:8687/user/js/table_crud_done.js}"></script>
+			<script>
+				//执行一个laydate实例,参考：https://www.layui.com/laydate/
+				laydate.render({
+					elem : '#remindTime',//指定元素
+					type : 'datetime',
+					position : 'fixed'
+
+				});
+			</script>
 		</div>
 	</div>
 </body>
