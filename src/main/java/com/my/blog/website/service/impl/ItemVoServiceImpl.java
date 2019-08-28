@@ -89,5 +89,13 @@ public class ItemVoServiceImpl implements IItemVoService{
 	public List<ItemVo> getAllItemsDone(){
 		return itemDao.selectAllDone();
 	}
+	
+	/**
+	 * 将一条已办退回到待办
+	 * @return int
+	 */
+	public int updateByItemId(Integer itemId) {
+		return itemDao.updateByItemId1(itemId);
+	}
 
 }

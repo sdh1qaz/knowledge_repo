@@ -29,4 +29,7 @@ public interface ItemVoMapper {
 	//查询所有已办
 	List<ItemVo> selectAllDone();
 	
+	//将一条已办退回到待办
+	int updateByItemId1(Integer itemId);
+	
 }

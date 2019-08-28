@@ -132,6 +132,12 @@ function tableInit() {
 			width : 120,
 			align : 'center',
 			valign : 'middle'
+		}, {
+			title : '操作',
+			field : 'operate',
+			align : 'center',
+			events : operateEvents,
+			formatter : genderOpt,
 		} ],
 		responseHandler : function(res) {
 			var obj = {
@@ -228,6 +234,16 @@ function genderOpt() {
 			'<a id="remove" href="javascript:void(0)" title="删除">',
 			'<i class="glyphicon glyphicon-trash"></i>', '</a>' ].join('');
 }
+
+// 删除表格中的数据表记录
+window.operateEvents = {
+	'click #edit' : function(e, value, row, index) {
+		editData(row);
+	},
+	'click #remove' : function(e, value, row, index) {
+		delData(row.itemId);
+	}
+};
 
 
 // 查询条件与分页数据

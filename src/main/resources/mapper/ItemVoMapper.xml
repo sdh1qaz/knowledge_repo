@@ -64,5 +64,10 @@
 		</set>
 		where itemId = #{itemVo.itemId,jdbcType=INTEGER}
 	</update>
+	
+	<update id="updateByItemId1" parameterType="java.lang.Integer">
+		update t_items set is_done='N',done_Time=null 
+		where itemId = #{itemId,jdbcType=INTEGER}
+	</update>
 
 </mapper>

@@ -63,5 +63,12 @@ public interface IItemVoService {
 	 * @return int
 	 */
 	int updateByItemId(@Param("itemVo") ItemVo itemVo);
+	
+	/**
+	 * 将一条已办退回到待办
+	 * @return int
+	 */
+	int updateByItemId(Integer itemId);
+
 
 }

@@ -1,23 +1,20 @@
 
 package com.my.blog.website.controller.user;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.model.Pages;
-import com.my.blog.website.model.Vo.ContentVo;
 import com.my.blog.website.model.Vo.ItemVo;
 import com.my.blog.website.service.IItemVoService;
-import com.my.blog.website.service.impl.HistoryQueue;
 
 
 /**
@@ -82,6 +79,17 @@ public class ItemController {
 	public String deleteItem(HttpServletRequest request) {
 		Integer itemId = new Integer(request.getParameter("itemId"));
 		int result = iItemVoService.deleteByItemId(itemId);
+		if(result != -1)
+			return "success";
+		else
+			return "fail";
+	}
+	
+	//将一条已办退回到待办
+	@RequestMapping(value = "/backToItems", method = RequestMethod.POST)
+	public String backToItems(HttpServletRequest request) {
+		Integer itemId = new Integer(request.getParameter("itemId"));
+		int result = iItemVoService.updateByItemId(itemId);
 		if(result != -1)
 			return "success";
 		else
