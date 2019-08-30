@@ -43,7 +43,7 @@ $("#addAndUpdate").on("hidden.bs.modal", function() {
 	$('#creatTime').val("");
 	$('#cont').val("");
 	$('#remindTime').val("");
-	// $("input[name='priority'][type=radio]").removeAttr("checked");//radio单选框不选中
+	$("input[name='priority'][type=radio]").removeAttr("checked");//radio单选框不选中
 	// $("input:radio[name="priority"]").attr("checked",false);
 });
 

@@ -69,8 +69,8 @@
 				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字
 				window.location.href = '/search/multior/' + keyword;
 			}
-			//设置定时器，每12分钟提醒一次是否有待办事项
-			var timer = self.setInterval("remind()", 1000 * 60 * 30);
+			//设置定时器，每60分钟提醒一次是否有待办事项
+			var timer = self.setInterval("remind()", 1000 * 60 * 60);
 			function remind() {
 				$.ajax({
 					url : "/user/items/isHasItems",
@@ -83,7 +83,7 @@
 						}
 					}
 				});
-			}
+			} 
 			//设置定时器，每30分钟提醒一次设置了提醒时间的事项
 			var timer1 = self.setInterval("remind1()", 1000 * 60 * 30);
 			function remind1() {
