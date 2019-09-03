@@ -22,7 +22,7 @@
 	<!-- 查 -->
 	<select id="selectAllDone" resultMap="BaseResultMap">
 		select * from t_items where
-		is_done = 'Y' ORDER by creat_time DESC
+		is_done = 'Y' ORDER by done_time DESC
 	</select>
 
 	<!-- 删 -->
