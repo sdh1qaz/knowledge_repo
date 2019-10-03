@@ -18,12 +18,12 @@ public class SendQQemailByJava {
 	 * 本地本分数据上传，发送邮件
 	 */
 	public static void SendEmail() {
-		sendEmail(OperateDataBySql.exportDataSql());
+		sendEmail(OperateDB.exportDataSql());
 	}
 	
 	@Test
 	public void testSendEmail() {
-		sendEmail(OperateDataBySql.exportDataSql());
+		sendEmail(OperateDB.exportDataSql());
 	}
 	
 	/*

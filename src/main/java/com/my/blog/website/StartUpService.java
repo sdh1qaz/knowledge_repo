@@ -11,9 +11,9 @@ import com.my.blog.website.utils.CMDUtil;
  * @author 苏登辉
  */
 @Service
-public class StartUpItemsService implements CommandLineRunner{
+public class StartUpService implements CommandLineRunner{
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(StartUpItemsService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StartUpService.class);
 	
 	@Override
 	public void run(String... args) throws Exception {

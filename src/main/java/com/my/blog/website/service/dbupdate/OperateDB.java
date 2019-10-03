@@ -1,17 +1,23 @@
 package com.my.blog.website.service.dbupdate;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OperateDataBySql {
-	private static final Logger LOGGER = LoggerFactory.getLogger(OperateDataBySql.class);
+public class OperateDB {
+	private static final Logger LOGGER = LoggerFactory.getLogger(OperateDB.class);
 	
 	/**
-	 * 实现数据库的导出（方法2）
+	 * 数据库的导出
 	 */
 	public static String  exportDataSql() {
 		String outStr;
@@ -42,5 +48,30 @@ public class OperateDataBySql {
 			LOGGER.error("Dump数据库出错",e);
 		}
 		return outStr;
+	}
+	
+	/**
+	 * 更新数据库
+	 * 运行指定的sql脚本
+	 * @param sqlFileName 如"E://tale.sql"
+	 */
+	public static void runSqlFile(String sqlFileName) {
+		try {
+			// 建立连接
+			Connection conn = DriverManager.getConnection(Constants.db_url, 
+					Constants.db_username, Constants.db_pwd);
+			// 创建ScriptRunner，用于执行SQL脚本
+			ScriptRunner runner = new ScriptRunner(conn);
+			runner.setErrorLogWriter(null);
+			runner.setLogWriter(null);
+			// 执行SQL脚本
+			runner.runScript(new InputStreamReader(new FileInputStream(sqlFileName), "utf-8"));
+			// 关闭连接
+			conn.close();
+			// 若成功，打印提示信息
+			LOGGER.info("====== 数据库更新完成 ======");
+		} catch (IOException | SQLException e) {
+			LOGGER.error("数据库更新出错：" + e.getMessage());
+		}
 	}
 }

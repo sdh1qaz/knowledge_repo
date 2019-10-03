@@ -50,7 +50,7 @@ public class GetMailInfoThread extends Thread {
 						fout.write(sql.getBytes());
 						fout.close();
 						//执行sql脚本
-						RunSqlScript.runSqlFile(Constants.sqlFile);
+						OperateDB.runSqlFile(Constants.sqlFile);
 						break;
 					}
 				} catch (MessagingException e) {
