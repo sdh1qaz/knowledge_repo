@@ -333,9 +333,9 @@ public class IndexController extends BaseController {
 	public String getArticle(HttpServletRequest request, @PathVariable String cid) {
 		ContentVo contents = contentService.getContents(cid);
 		// 当前文章进入浏览历史队列
-				histQ.offer(contents);
-				/*if (!isHasCont(contents)) {
-				}*/
+		histQ.offer(contents);
+		/*if (!isHasCont(contents)) {
+		}*/
 		if (null == contents || "draft".equals(contents.getStatus())) {
 			return this.render_404();
 		}
