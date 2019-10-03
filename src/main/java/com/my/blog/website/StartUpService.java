@@ -22,7 +22,7 @@ public class StartUpService implements CommandLineRunner{
 		// \s*代表若干个空格
 		if (!netstat.contains("92000.0.0.0:0LISTENING")) {
 			//启动es和logstash
-			LOGGER.info("开始启动ES5.4.3，脚本地址：D:\\elasticsearch-5.4.3\\bin\\elasticsearch.bat");
+			LOGGER.info("启动项：未检测到es进程，开始启动ES5.4.3，脚本地址：D:\\elasticsearch-5.4.3\\bin\\elasticsearch.bat...");
 			String bat_e = "D:\\elasticsearch-5.4.3\\bin\\elasticsearch.bat";
 			CMDUtil.runbat(bat_e);
 			Thread.sleep(3000);
