@@ -37,6 +37,13 @@ public class CMDUtil {
 			return null;
 		}
 	}
+	
+	public static void main(String[] args) {
+		//System.out.println(excuteCMDCommand("netstat -ano"));
+		//System.out.println(excuteCMDCommand("jps -v"));
+		String cc = excuteCMDCommand("netstat -ano").replaceAll(" ", "");
+		System.out.println(cc.contains("92000.0.0.0:0LISTENING"));
+	}
 
 	/**
 	 * 执行bat文件，

@@ -23,6 +23,7 @@ import com.my.blog.website.model.Vo.ItemVo;
 import com.my.blog.website.model.Vo.OptionVo;
 import com.my.blog.website.service.dbupdate.OperateDB;
 import com.my.blog.website.service.dbupdate.SendQQemailByJava;
+import com.my.blog.website.utils.CMDUtil;
 
 /**
  * @ClassName： SchedulService
@@ -69,6 +70,38 @@ public class SchedulService {
 		op.setValue(cidStr.toString());
 		optionVoDao.updateByPrimaryKeySelective(op);
 		LOGGER.info("定时任务：浏览历史列表中的文章cid更新到数据库完成。。。");
+	}
+	
+	/**
+	 * 每5分钟检测es和logstash进程，如不存在就启动
+	 * @throws InterruptedException 
+	 */
+	@Scheduled(cron = "0 0/5 * * * ? ")
+	public void checkEsAndLogstash() throws InterruptedException {
+		LOGGER.info("定时任务：检测es和logstash进程开始。。。");
+		//如果es没有启动，启动es
+		String netstat = CMDUtil.excuteCMDCommand("netstat -ano").replaceAll(" ", "");
+		// \s*代表若干个空格
+		if (!netstat.contains("92000.0.0.0:0LISTENING")) {
+			//启动es和logstash
+			LOGGER.info("定时任务：未检测到es进程，开始启动ES5.4.3，脚本地址：D:\\elasticsearch-5.4.3\\bin\\elasticsearch.bat");
+			String bat_e = "D:\\elasticsearch-5.4.3\\bin\\elasticsearch.bat";
+			CMDUtil.runbat(bat_e);
+			Thread.sleep(3000);
+		}else {
+			LOGGER.info("定时任务：检测到es进程已经存在，不再启动...");
+		}
+		
+		//如果logstash没有启动，启动logstash
+		/*String jps = CMDUtil.excuteCMDCommand("jps -v");
+		if (!jps.contains("logstash-5.4.3")) {
+			LOGGER.info("开始启动logstash5.4.3，脚本地址：D:\\logstash-5.4.3\\bin\\start_logstash.bat");
+			String bat_l = "D:\\logstash-5.4.3\\bin\\start_logstash.bat";
+			CMDUtil.runbat(bat_l);
+		}else {
+			LOGGER.info("logstash进程存在");
+		}
+		LOGGER.info("定时任务：检测es和logstash进程完成。。。");*/
 	}
 
 	/**
