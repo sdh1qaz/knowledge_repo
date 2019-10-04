@@ -170,7 +170,7 @@ public final class Commons {
      * @return
      */
     public static String permalink(Integer cid, String slug) {
-        return site_url("/admin/article/" + (StringUtils.isNotBlank(slug) ? slug : cid.toString()));
+        return site_url("/article/" + (StringUtils.isNotBlank(slug) ? slug : cid.toString()));
     }
 
     /**
