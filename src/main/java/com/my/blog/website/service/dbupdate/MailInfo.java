@@ -28,7 +28,7 @@ import javax.mail.internet.MimeUtility;
  * @author lupf
  *
  */
-public class MailImfo {
+public class MailInfo {
 
 	private MimeMessage mimeMessage = null;
 	private String saveAttachPath = ""; // 附件下载后的存放目录
@@ -38,10 +38,10 @@ public class MailImfo {
 	/**
 	 * 构造函数,初始化一个MimeMessage对象
 	 */
-	public MailImfo() {
+	public MailInfo() {
 	}
 
-	public MailImfo(MimeMessage mimeMessage) throws Exception {
+	public MailInfo(MimeMessage mimeMessage) throws Exception {
 		this.mimeMessage = mimeMessage;
 		this.getMailContent(mimeMessage);
 	}

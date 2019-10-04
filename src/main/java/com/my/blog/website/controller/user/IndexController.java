@@ -44,7 +44,7 @@ import com.my.blog.website.service.IContentService;
 import com.my.blog.website.service.IItemVoService;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.ISiteService;
-import com.my.blog.website.service.dbupdate.KnowledgeBagUpdateUtil;
+import com.my.blog.website.service.dbupdate.UpdateService;
 import com.my.blog.website.service.impl.HistoryQueue;
 import com.my.blog.website.utils.IPKit;
 import com.my.blog.website.utils.PatternKit;
@@ -73,7 +73,13 @@ public class IndexController extends BaseController {
 	@Resource
 	private HistoryQueue<ContentVo> histQ;
 	
-	private ExecutorService executorService = Executors.newCachedThreadPool();
+	@Resource
+	private UpdateService updateService;
+	
+	
+	
+	
+	//private ExecutorService executorService = Executors.newCachedThreadPool();
 	
 	//判断队列中是否已有这个文章
 	public boolean isHasCont(ContentVo contentVo) {
@@ -134,12 +140,13 @@ public class IndexController extends BaseController {
 	 */
 	@RequestMapping("/user/updateDB")
 	public @ResponseBody String updateDB(HttpServletRequest request) {
-		executorService.submit(new Runnable() {
+		/*executorService.submit(new Runnable() {
 			@Override
 			public void run() {
-				KnowledgeBagUpdateUtil.updateLocal();
+				UpdateService.updateLocal();
 			}
-		});
+		});*/
+		updateService.updateLocal();
 		return "ok";
 	}
 	
@@ -150,12 +157,13 @@ public class IndexController extends BaseController {
 	@RequestMapping("/user/pushDB")
 	//@ResponseBody 是向前台返回json数据，而不是视图名
 	public @ResponseBody String pushDB(HttpServletRequest request) {
-		executorService.submit(new Runnable() {
+		/*executorService.submit(new Runnable() {
 			@Override
 			public void run() {
-				KnowledgeBagUpdateUtil.sendLocal();
+				UpdateService.sendLocal();
 			}
-		});
+		});*/
+		updateService.sendLocal();
 		return "ok";
 	}
 	

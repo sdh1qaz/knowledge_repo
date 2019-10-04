@@ -22,7 +22,7 @@ import com.my.blog.website.model.Vo.ContentVo;
 import com.my.blog.website.model.Vo.ItemVo;
 import com.my.blog.website.model.Vo.OptionVo;
 import com.my.blog.website.service.dbupdate.OperateDB;
-import com.my.blog.website.service.dbupdate.SendQQemailByJava;
+import com.my.blog.website.service.dbupdate.ReadSendQQemail;
 import com.my.blog.website.utils.CMDUtil;
 
 /**
@@ -148,7 +148,7 @@ public class SchedulService {
 		}
 		LOGGER.info("定时任务：发送代办事项到qq邮箱开始。。。");
 		String msg = sb.toString();
-		SendQQemailByJava.sendEmail(msg, "代办事项提醒！");
+		ReadSendQQemail.sendEmail(msg, "代办事项提醒！");
 		LOGGER.info("定时任务：发送代办事项到qq邮箱完成。。。");
 	}
 

@@ -12,7 +12,7 @@ import com.my.blog.website.model.Vo.ContentVoExample;
 import com.my.blog.website.service.IContentService;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.IRelationshipService;
-import com.my.blog.website.service.dbupdate.KnowledgeBagUpdateUtil;
+import com.my.blog.website.service.dbupdate.UpdateService;
 import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.TaleUtils;
 import com.my.blog.website.utils.Tools;

@@ -17,7 +17,7 @@ public class OperateDB {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OperateDB.class);
 	
 	/**
-	 * 数据库的导出
+	 * 导出数据库
 	 */
 	public static String  exportDataSql() {
 		String outStr;
@@ -74,4 +74,5 @@ public class OperateDB {
 			LOGGER.error("数据库更新出错：" + e.getMessage());
 		}
 	}
+	
 }
