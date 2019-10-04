@@ -404,7 +404,7 @@ public class UserController extends BaseController {
 	 * @param cid文章主键
 	 * @return
 	 */
-	@GetMapping(value = { "/admin/article/{cid}/preview", "/admin/article/{cid}.html" })
+	@GetMapping(value = { "/article/{cid}/preview", "/article/{cid}.html" })
 	public String articlePreview(HttpServletRequest request, @PathVariable String cid) {
 		ContentVo contents = contentService.getContents(cid);
 		if (null == contents) {
