@@ -2,6 +2,10 @@ package com.my.blog.website.service.dbupdate;
 
 import java.io.Serializable;
 
+/**
+ * 封装邮件服务器、端口、发件人信息、授权码等信息
+ * @author 苏登辉
+ */
 public class EmailPojo implements Serializable{
 
 	/**

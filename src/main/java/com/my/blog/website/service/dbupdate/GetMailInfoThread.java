@@ -34,14 +34,14 @@ public class GetMailInfoThread extends Thread {
 				try {
 					re = new MailImfo((MimeMessage) message[i - 1]);
 					//如果邮件主题包含“小书包数据同步”字样，则读取
-					if (re.getSubject().contains(Constants.subject)) {
+					if (re.getSubject().contains(MailConstants.subject)) {
 						//需要的内容，sql
 						/*String[] sql = re.getBodyText().split("$$$");
 						System.out.println(sql[0]+"***********************");*/
 						int end = re.getBodyText().indexOf("<html>");
 						String sql = re.getBodyText().substring(0, end);
 						//将sql写到文件E://tale.sql
-						File f = new File(Constants.sqlFile);
+						File f = new File(MailConstants.sqlFile);
 						if (f.exists()) {
 							f.delete();
 							f.createNewFile();
@@ -50,7 +50,7 @@ public class GetMailInfoThread extends Thread {
 						fout.write(sql.getBytes());
 						fout.close();
 						//执行sql脚本
-						OperateDB.runSqlFile(Constants.sqlFile);
+						OperateDB.runSqlFile(MailConstants.sqlFile);
 						break;
 					}
 				} catch (MessagingException e) {

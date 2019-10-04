@@ -25,8 +25,8 @@ public class MailRead
         try
         {
             String host = "pop.qq.com";
-            String username = Constants.readEmail;//要读取的邮箱
-            String password = Constants.authpwd;//生成的授权码
+            String username = MailConstants.readEmail;//要读取的邮箱
+            String password = MailConstants.authpwd;//生成的授权码
 
             Properties p = new Properties();
             p.setProperty("mail.pop3.host", "pop.qq.com"); // 按需要更改

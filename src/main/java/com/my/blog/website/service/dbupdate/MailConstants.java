@@ -4,11 +4,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * 常量
+ * 邮箱信息常量
  */
 @Component
 @ConfigurationProperties(prefix = "db.update")
-public class Constants {
+public class MailConstants {
 
 	public static String subject;// 邮件主题
 	public static String sqlFile;// 读取邮件的sql内容后保存到的路径，如E://tale.sql
@@ -26,7 +26,7 @@ public class Constants {
 	}
 
 	public void setSubject(String subject) {
-		Constants.subject = subject;
+		MailConstants.subject = subject;
 	}
 
 	public String getSqlFile() {
@@ -34,7 +34,7 @@ public class Constants {
 	}
 
 	public void setSqlFile(String sqlFile) {
-		Constants.sqlFile = sqlFile;
+		MailConstants.sqlFile = sqlFile;
 	}
 
 	public String getReadEmail() {
@@ -42,7 +42,7 @@ public class Constants {
 	}
 
 	public void setReadEmail(String readEmail) {
-		Constants.readEmail = readEmail;
+		MailConstants.readEmail = readEmail;
 	}
 
 	public String getSendEmail() {
@@ -50,7 +50,7 @@ public class Constants {
 	}
 
 	public void setSendEmail(String sendEmail) {
-		Constants.sendEmail = sendEmail;
+		MailConstants.sendEmail = sendEmail;
 	}
 
 	public String getSendName() {
@@ -58,7 +58,7 @@ public class Constants {
 	}
 
 	public void setSendName(String sendName) {
-		Constants.sendName = sendName;
+		MailConstants.sendName = sendName;
 	}
 
 	public String getAuthpwd() {
@@ -66,7 +66,7 @@ public class Constants {
 	}
 
 	public void setAuthpwd(String authpwd) {
-		Constants.authpwd = authpwd;
+		MailConstants.authpwd = authpwd;
 	}
 
 	public String getMysqlAddr() {
@@ -74,7 +74,7 @@ public class Constants {
 	}
 
 	public void setMysqlAddr(String mysqlAddr) {
-		Constants.mysqlAddr = mysqlAddr;
+		MailConstants.mysqlAddr = mysqlAddr;
 	}
 
 	public String getDb_url() {
@@ -82,7 +82,7 @@ public class Constants {
 	}
 
 	public void setDb_url(String db_url) {
-		Constants.db_url = db_url;
+		MailConstants.db_url = db_url;
 	}
 
 	public String getDb_username() {
@@ -90,7 +90,7 @@ public class Constants {
 	}
 
 	public void setDb_username(String db_username) {
-		Constants.db_username = db_username;
+		MailConstants.db_username = db_username;
 	}
 
 	public String getDb_pwd() {
@@ -98,7 +98,7 @@ public class Constants {
 	}
 
 	public void setDb_pwd(String db_pwd) {
-		Constants.db_pwd = db_pwd;
+		MailConstants.db_pwd = db_pwd;
 	}
 
 }

@@ -33,11 +33,11 @@ public class SendQQemailByJava {
 		EmailPojo ep = new EmailPojo();
 		ep.setHostname("smtp.qq.com");
 		ep.setPort(465);
-		ep.setSendEmail(Constants.sendEmail);
-		ep.setReceiveEmail(Constants.readEmail);
-		ep.setAuth(Constants.authpwd);
-		ep.setSubJect(Constants.subject);
-		ep.setSendName(Constants.sendName);
+		ep.setSendEmail(MailConstants.sendEmail);
+		ep.setReceiveEmail(MailConstants.readEmail);
+		ep.setAuth(MailConstants.authpwd);
+		ep.setSubJect(MailConstants.subject);
+		ep.setSendName(MailConstants.sendName);
 		ep.setMsg(msg);
 		sendEmail(ep);
 	}
@@ -49,11 +49,11 @@ public class SendQQemailByJava {
 		EmailPojo ep = new EmailPojo();
 		ep.setHostname("smtp.qq.com");
 		ep.setPort(465);
-		ep.setSendEmail(Constants.sendEmail);
-		ep.setReceiveEmail(Constants.readEmail);
-		ep.setAuth(Constants.authpwd);
+		ep.setSendEmail(MailConstants.sendEmail);
+		ep.setReceiveEmail(MailConstants.readEmail);
+		ep.setAuth(MailConstants.authpwd);
 		ep.setSubJect(subject);
-		ep.setSendName(Constants.sendName);
+		ep.setSendName(MailConstants.sendName);
 		ep.setMsg(msg);
 		sendEmail(ep);
 	}
