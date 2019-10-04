@@ -104,8 +104,8 @@ public class UserController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/user/login")
-	public String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@RequestMapping("/user/login/check")
+	public String loginCheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 获取前台传来的用户名
 		String userName = request.getParameter("userName");
 		// 获取前台传来的密码
@@ -121,6 +121,17 @@ public class UserController extends BaseController {
 			return null;
 		}
 		LOGGER.info("前台登录小书包的用户名或密码错误。。。");
+		// 返回登录页面
+		return this.render("login");
+	}
+	
+	/**
+	 * 转向登录页面
+	 */
+	@RequestMapping("/user/login")
+	public String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		LOGGER.info("转向前台登录页面...");
 		// 返回登录页面
 		return this.render("login");
 	}
@@ -393,7 +404,7 @@ public class UserController extends BaseController {
 	 * @param cid文章主键
 	 * @return
 	 */
-	@GetMapping(value = { "article/{cid}/preview", "article/{cid}.html" })
+	@GetMapping(value = { "/admin/article/{cid}/preview", "/admin/article/{cid}.html" })
 	public String articlePreview(HttpServletRequest request, @PathVariable String cid) {
 		ContentVo contents = contentService.getContents(cid);
 		if (null == contents) {
