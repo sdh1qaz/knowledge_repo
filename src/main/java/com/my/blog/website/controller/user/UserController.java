@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -51,9 +50,11 @@ import com.my.blog.website.utils.PatternKit;
 import com.my.blog.website.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
 
+import net.sf.json.JSONArray;
+
 @Controller
-public class IndexController extends BaseController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+public class UserController extends BaseController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 	@Resource
 	private IContentService contentService;
@@ -72,55 +73,71 @@ public class IndexController extends BaseController {
 
 	@Resource
 	private HistoryQueue<ContentVo> histQ;
-	
+
 	@Resource
 	private UpdateService updateService;
-	
-	
-	
-	
-	//private ExecutorService executorService = Executors.newCachedThreadPool();
-	
-	//判断队列中是否已有这个文章
+
+	// private ExecutorService executorService = Executors.newCachedThreadPool();
+
+	/**
+	 * 判断队列中是否已有这个文章
+	 * 
+	 * @param contentVo
+	 * @return
+	 */
 	public boolean isHasCont(ContentVo contentVo) {
 		boolean is = false;
-		//遍历hisQ
-		for(ContentVo cont : histQ) {
+		// 遍历hisQ
+		for (ContentVo cont : histQ) {
 			if (contentVo.getTitle().equals(cont.getTitle())) {
 				is = true;
 			}
 		}
 		return is;
 	}
-	
-	//用户登录小书包
+
+	/**
+	 * 用户登录小书包
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("/user/login")
-	public String login(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		//获取前台传来的用户名
+	public String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// 获取前台传来的用户名
 		String userName = request.getParameter("userName");
-		//获取前台传来的密码
+		// 获取前台传来的密码
 		String pwd = request.getParameter("pwd");
 		UserVo userVo = new UserVo();
 		userVo.setUsername(userName);
 		userVo.setPassword(pwd);
-		//用户名dhsu，密码admin
+		// 用户名dhsu，密码admin
 		if ("dhsu".equals(userName) && "e10adc3949ba59abbe56e057f20f883e".equals(pwd)) {
-			//用户放入session
-			request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY, userVo);
+			// 用户放入session
+			request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY_USER, userVo);
 			response.sendRedirect("/forum");
 			return null;
 		}
 		LOGGER.info("前台登录小书包的用户名或密码错误。。。");
-		//返回登录页面
+		// 返回登录页面
 		return this.render("login");
 	}
-	
-	//用户登录小书包
+
+	/**
+	 * 用户登出小书包
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("/user/logout")
-	public String logout(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		request.getSession().removeAttribute(WebConst.LOGIN_SESSION_KEY);
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.getSession().removeAttribute(WebConst.LOGIN_SESSION_KEY_USER);
 		LOGGER.info("前台用户退出。。。");
-		//返回登录页面
+		// 返回登录页面
 		return this.render("login");
 	}
 
@@ -136,37 +153,37 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 数据库更新
+	 * 
 	 * @return json数组[文章名，文章cid}
 	 */
 	@RequestMapping("/user/updateDB")
 	public @ResponseBody String updateDB(HttpServletRequest request) {
-		/*executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-				UpdateService.updateLocal();
-			}
-		});*/
+		/*
+		 * executorService.submit(new Runnable() {
+		 * 
+		 * @Override public void run() { UpdateService.updateLocal(); } });
+		 */
 		updateService.updateLocal();
 		return "ok";
 	}
-	
+
 	/**
 	 * 数据库同步
+	 * 
 	 * @return json数组[文章名，文章cid}
 	 */
 	@RequestMapping("/user/pushDB")
-	//@ResponseBody 是向前台返回json数据，而不是视图名
+	// @ResponseBody 是向前台返回json数据，而不是视图名
 	public @ResponseBody String pushDB(HttpServletRequest request) {
-		/*executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-				UpdateService.sendLocal();
-			}
-		});*/
+		/*
+		 * executorService.submit(new Runnable() {
+		 * 
+		 * @Override public void run() { UpdateService.sendLocal(); } });
+		 */
 		updateService.sendLocal();
 		return "ok";
 	}
-	
+
 	/**
 	 * 最近浏览历史的20篇文章
 	 * 
@@ -185,16 +202,14 @@ public class IndexController extends BaseController {
 		request.setAttribute("articles", articles);
 		return this.render("history");
 	}
-	
-	
+
 	/**
 	 * 最近添加的20篇文章
-	 * 
 	 * @return json数组[文章名，文章cid}
 	 */
 	@RequestMapping("/user/newly")
 	public String getNewlyArticles(HttpServletRequest request) {
-		//获取最近添加的20篇文章
+		// 获取最近添加的20篇文章
 		List<ContentVo> articles = contentService.getNewlyArticles(20);
 		request.setAttribute("articles", articles);
 		return this.render("newlyArticles");
@@ -202,7 +217,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 根据题目关键词搜索文章
-	 * 
 	 * @param request
 	 * @param p第几页
 	 * @param limit每页大小
@@ -237,6 +251,19 @@ public class IndexController extends BaseController {
 		request.setAttribute("key", "user/search/" + keyword);// 把keyword传递给search_list.html页面便于查找下一页
 		return this.render("search_result");
 	}
+	
+	/**
+	 * 搜索框自动提示
+	 * @param String keyword
+	 * @return arry
+	 */
+	@RequestMapping("user/titles")
+	@ResponseBody
+	public Object getSearchResults(String keyword) {
+		List<String> list = contentService.getTitles(keyword);
+		JSONArray arry = JSONArray.fromObject(list);
+		return arry.toString();
+	}
 
 	/**
 	 * 待办按钮响应
@@ -249,7 +276,7 @@ public class IndexController extends BaseController {
 		request.setAttribute("pageInfo", pageInfo);
 		return this.render("items");
 	}
-	
+
 	/**
 	 * 已办按钮响应
 	 * 
@@ -261,8 +288,6 @@ public class IndexController extends BaseController {
 		request.setAttribute("pageInfo", pageInfo);
 		return this.render("items_done");
 	}
-	
-	
 
 	@GetMapping(value = "user/search/{keyword}/{page}")
 	public String listPageSearchResut(HttpServletRequest request, @PathVariable String keyword, @PathVariable int page,
@@ -276,7 +301,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 后台文章管理根据题目关键词搜索文章
-	 * 
 	 * @param request
 	 * @param p第几页
 	 * @param limit每页大小
@@ -293,7 +317,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 后台文章管理根据题目关键词搜索文章
-	 * 
 	 * @param request
 	 * @param p第几页
 	 * @param limit每页大小
@@ -341,8 +364,9 @@ public class IndexController extends BaseController {
 		ContentVo contents = contentService.getContents(cid);
 		// 当前文章进入浏览历史队列
 		histQ.offer(contents);
-		/*if (!isHasCont(contents)) {
-		}*/
+		/*
+		 * if (!isHasCont(contents)) { }
+		 */
 		if (null == contents || "draft".equals(contents.getStatus())) {
 			return this.render_404();
 		}
@@ -365,7 +389,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 文章页(预览)
-	 *
 	 * @param request请求
 	 * @param cid文章主键
 	 * @return
@@ -388,7 +411,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 抽取公共方法
-	 *
 	 * @param request
 	 * @param contents
 	 */
@@ -407,7 +429,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 注销
-	 *
 	 * @param session
 	 * @param response
 	 */
@@ -497,7 +518,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 分类页
-	 *
 	 * @return
 	 */
 	@GetMapping(value = "category/{keyword}")
@@ -527,7 +547,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 归档页
-	 *
 	 * @return
 	 */
 	@GetMapping(value = "archives")
@@ -539,7 +558,6 @@ public class IndexController extends BaseController {
 
 	/**
 	 * 友链页
-	 *
 	 * @return
 	 */
 	@GetMapping(value = "links")

@@ -3,7 +3,7 @@ package com.my.blog.website.controller.admin;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
 import com.my.blog.website.dto.LogActions;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Bo.RestResponseBo;
 import com.my.blog.website.model.Vo.UserVo;
 import com.my.blog.website.service.ILogService;
@@ -28,7 +28,7 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping("/admin")
-@Transactional(rollbackFor = TipException.class)
+@Transactional(rollbackFor = KnowledgeRepoException.class)
 public class AuthController extends BaseController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
@@ -47,14 +47,14 @@ public class AuthController extends BaseController {
 	
 	@PostMapping(value = "login")
 	@ResponseBody
-	public RestResponseBo doLogin(@RequestParam String username, @RequestParam String password,
+	public RestResponseBo<?> doLogin(@RequestParam String username, @RequestParam String password,
 			@RequestParam(required = false) String remeber_me, HttpServletRequest request,
 			HttpServletResponse response) {
 		//获取登录错误次数
 		Integer error_count = cache.get("login_error_count");
 		try {
 			UserVo user = usersService.login(username, password);
-			request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY, user);
+			request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN, user);
 			if (StringUtils.isNotBlank(remeber_me)) {
 				TaleUtils.setCookie(response, user.getUid());
 			}
@@ -66,7 +66,7 @@ public class AuthController extends BaseController {
 			}
 			cache.set("login_error_count", error_count, 10 * 60);
 			String msg = "登录失败";
-			if (e instanceof TipException) {
+			if (e instanceof KnowledgeRepoException) {
 				msg = e.getMessage();
 			} else {
 				LOGGER.error(msg, e);
@@ -84,7 +84,7 @@ public class AuthController extends BaseController {
 	 */
 	@RequestMapping("/logout")
 	public void logout(HttpSession session, HttpServletResponse response, HttpServletRequest request) {
-		session.removeAttribute(WebConst.LOGIN_SESSION_KEY);
+		session.removeAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN);
 		Cookie cookie = new Cookie(WebConst.USER_IN_COOKIE, "");
 		cookie.setValue(null);
 		cookie.setMaxAge(0);// 立即销毁cookie

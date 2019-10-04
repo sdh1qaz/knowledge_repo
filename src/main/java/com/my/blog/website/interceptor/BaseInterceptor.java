@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,34 +56,63 @@ public class BaseInterceptor implements HandlerInterceptor {
 
 		// 请求拦截处理
 		// 从session中取出当前登录的账户
-		UserVo user = TaleUtils.getLoginUser(request);
-		if (null == user) {
-			Integer uid = TaleUtils.getCookieUid(request);
+		List<UserVo> userList = TaleUtils.getLoginUser(request);
+		int userSize = userList.size();
+		//1.没有登录的用户
+		if (userSize == 0) {
+			/*Integer uid = TaleUtils.getCookieUid(request);
 			if (null != uid) {
 				// 这里还是有安全隐患,cookie是可以伪造的
 				user = userService.queryUserById(uid);
 				request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY, user);
+			}*/
+			
+			//没有登录
+			LOGGE.info("当前没有登录的用户...");
+			//后台请求转向后台登录页面
+			//如果uri以/admin开头，且不以/admin/login开头,则转向后台登录页面
+			if (uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/admin/login") ) {
+				response.sendRedirect(request.getContextPath() + "/admin/login");
+				return false;
 			}
-		}else {
-			LOGGE.info("当前登录的用户：" + user.getUsername());
+			
+			//前台请求转向前台登录页面
+			//如果uri不以/admin开头，即前台请求，且不以/user/login开头
+			if (!uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/user/login")) {
+				response.sendRedirect(request.getContextPath() + "/user/login");
+				return false;
+			}
 		}
 		
-		//获取当前用户类型
-		String userType = getAdminOrUser(user);
-		
-		//如果uri以/admin开头，且不以/admin/login开头，且当前没有登录的用户或为前台用户，
-		//则转向后台登录页面
-		if (uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/admin/login") 
-				&& ("0".equals(userType) || "1".equals(userType))) {
-			response.sendRedirect(request.getContextPath() + "/admin/login");
-			return false;
+		//2.有1个登录用户，user或者admin
+		if (userSize == 1) {
+			/*Integer uid = TaleUtils.getCookieUid(request);
+			if (null != uid) {
+				// 这里还是有安全隐患,cookie是可以伪造的
+				user = userService.queryUserById(uid);
+				request.getSession().setAttribute(WebConst.LOGIN_SESSION_KEY, user);
+			}*/
+			//当前登录的用户名字
+			String username = userList.get(0).getUsername();
+			LOGGE.info("当前登录的用户：" + username);
+			//登录的用户是前台用户user,前台请求放过，后台请求验证
+			if ("user".equals(userList.get(0).getUsername()) 
+					&& uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/admin/login")) {
+				response.sendRedirect(request.getContextPath() + "/admin/login");
+				return false;
+			}
+			//登录的用户是后台用户admin,后台请求放过，前台请求验证
+			//如果uri不以/admin开头，即前台请求，且不以/user/login开头
+			if ("admin".equals(userList.get(0).getUsername()) &&
+					!uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/user/login")) {
+				response.sendRedirect(request.getContextPath() + "/user/login");
+				return false;
+			}
 		}
-		//如果uri不以/admin开头，即前台请求，且不以/user/login开头，且当前没有登录的用户或为后台用户，
-		//则转向前台登录页面
-		if(!uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/user/login")
-				&& ("0".equals(userType) || "2".equals(userType)) && !uri.contains("preview")) {
-			response.sendRedirect(request.getContextPath() + "/user/login");
-			return false;
+		
+		//3.有2个登录用户，user，admin都已登录，则前后台请求都放过
+		if (userSize == 2) {
+			LOGGE.info("当前登录的用户：" + userList.get(0).getUsername() + "," + userList.get(1).getUsername());
 		}
 		
 		// 设置get请求的token

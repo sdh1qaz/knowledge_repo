@@ -16,27 +16,26 @@ import com.my.blog.website.model.Pages;
 import com.my.blog.website.model.Vo.ItemVo;
 import com.my.blog.website.service.IItemVoService;
 
-
 /**
- * @ClassName： ItemController
- * @Author: dhSu
+ * @Author: 苏登辉
  * @Description: 对ItemVo增删改查
  * @Date:Created in 2018年10月28日
  */
 @RequestMapping("user/items")
 @RestController
 public class ItemController {
-	//private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
-	
+	// private static final Logger LOGGER =
+	// LoggerFactory.getLogger(ItemController.class);
+
 	@Resource
 	private IItemVoService iItemVoService;
-	
-	//返回所有待办
+
+	// 返回所有待办
 	@RequestMapping(value = "/getItems", method = RequestMethod.POST)
-	public Pages<ItemVo> getItems(HttpServletRequest request){
+	public Pages<ItemVo> getItems(HttpServletRequest request) {
 		String limit = request.getParameter("limit");
 		String nowPage = request.getParameter("nowPage");
-		
+
 		// 当前页数
 		int nowPaged = Integer.parseInt(null == nowPage ? "1" : nowPage);
 		// 每页显示页数
@@ -55,123 +54,122 @@ public class ItemController {
 		pages.setStatus(0);
 		return pages;
 	}
-	
-	//增加一条待办
+
+	// 增加一条待办
 	@RequestMapping(value = "/insertItem", method = RequestMethod.POST)
-	public String addItem(ItemVo itemVo,HttpServletRequest request) {
-		itemVo.setCont(request.getParameter("cont"));//待办内容
-		itemVo.setPriority(request.getParameter("priority"));//待办优先级
-		itemVo.setDeadLine(request.getParameter("deadLine"));//截止时间
-		itemVo.setPerson(request.getParameter("person"));//干系人
-		itemVo.setRemindTime(Integer.parseInt(request.getParameter("remindTime")));//提醒时间
-		//生成时间戳  创建时间
-		itemVo.setCreatTime(new Integer((int)(System.currentTimeMillis() / 1000)));
+	public String addItem(ItemVo itemVo, HttpServletRequest request) {
+		itemVo.setCont(request.getParameter("cont"));// 待办内容
+		itemVo.setPriority(request.getParameter("priority"));// 待办优先级
+		itemVo.setDeadLine(request.getParameter("deadLine"));// 截止时间
+		itemVo.setPerson(request.getParameter("person"));// 干系人
+		itemVo.setRemindTime(Integer.parseInt(request.getParameter("remindTime")));// 提醒时间
+		// 生成时间戳 创建时间
+		itemVo.setCreatTime(new Integer((int) (System.currentTimeMillis() / 1000)));
 		int result = iItemVoService.insert(itemVo);
 		System.out.println("*******************" + result);
-		if(result != -1)
+		if (result != -1)
 			return "success";
 		else
 			return "fail";
 	}
-	
-	//删除一条待办
+
+	// 删除一条待办
 	@RequestMapping(value = "/deleteItem", method = RequestMethod.POST)
 	public String deleteItem(HttpServletRequest request) {
 		Integer itemId = new Integer(request.getParameter("itemId"));
 		int result = iItemVoService.deleteByItemId(itemId);
-		if(result != -1)
+		if (result != -1)
 			return "success";
 		else
 			return "fail";
 	}
-	
-	//将一条已办退回到待办
+
+	// 将一条已办退回到待办
 	@RequestMapping(value = "/backToItems", method = RequestMethod.POST)
 	public String backToItems(HttpServletRequest request) {
 		Integer itemId = new Integer(request.getParameter("itemId"));
 		int result = iItemVoService.updateByItemId(itemId);
-		if(result != -1)
+		if (result != -1)
 			return "success";
 		else
 			return "fail";
 	}
-	
-	//更新一条待办
+
+	// 更新一条待办
 	@RequestMapping(value = "/updateItem", method = RequestMethod.POST)
-	public String updateItem(ItemVo itemVo,HttpServletRequest request) {
-		itemVo.setCont(request.getParameter("cont"));//待办内容
-		itemVo.setDeadLine(request.getParameter("deadLine"));//截止时间
-		itemVo.setPerson(request.getParameter("person"));//干系人
+	public String updateItem(ItemVo itemVo, HttpServletRequest request) {
+		itemVo.setCont(request.getParameter("cont"));// 待办内容
+		itemVo.setDeadLine(request.getParameter("deadLine"));// 截止时间
+		itemVo.setPerson(request.getParameter("person"));// 干系人
 		itemVo.setPriority(request.getParameter("priority"));
 		String tmp = request.getParameter("remindTime");
-		if (tmp!=null && !"".equals(tmp)) 
-			itemVo.setRemindTime(Integer.parseInt(tmp));//提醒时间
+		if (tmp != null && !"".equals(tmp))
+			itemVo.setRemindTime(Integer.parseInt(tmp));// 提醒时间
 		else
 			itemVo.setRemindTime(null);
 		int result = iItemVoService.updateByItemId(itemVo);
-		if(result != -1)
+		if (result != -1)
 			return "success";
 		else
 			return "fail";
 	}
-	
-	//是否有待办
+
+	// 是否有待办
 	@RequestMapping(value = "/isHasItems", method = RequestMethod.GET)
 	public String isHasItems() {
 		List<ItemVo> items = iItemVoService.getAllItems();
 		int size = items.size();
-		if(size == 0)
+		if (size == 0)
 			return "nothing";
 		StringBuilder sb = new StringBuilder();
 		int count = 1;
-		for(int i = 0;i < size;i++) {
+		for (int i = 0; i < size; i++) {
 			ItemVo itemVo = items.get(i);
-			if("高".equals(itemVo.getPriority())) {
-				if(count == 1)
+			if ("高".equals(itemVo.getPriority())) {
+				if (count == 1)
 					sb.append("您有以下优先级为高的事情要做：\n\n");
 				sb.append(count + "." + itemVo.getCont() + "；\n");
 				count += 1;
-				
-			}
-			else
+
+			} else
 				continue;
 		}
-		if(sb.length() == 0)
+		if (sb.length() == 0)
 			sb.append("您有待办需处理！");
 		return sb.toString();
 	}
-	
-	//返回快要到期的提醒
+
+	// 返回快要到期的提醒
 	@RequestMapping(value = "/getDueItems", method = RequestMethod.GET)
 	public String getDueItems() {
 		List<ItemVo> items = iItemVoService.getAllItems();
 		StringBuilder sb = new StringBuilder();
-		
+
 		long now = System.currentTimeMillis() / 1000;
 		int size = items.size();
 		int count = 1;
-		for(int i = 0;i < size;i++) {
+		for (int i = 0; i < size; i++) {
 			ItemVo itemVo = items.get(i);
-			if(itemVo.getRemindTime() == null)
+			if (itemVo.getRemindTime() == null)
 				continue;
-			else if(itemVo.getRemindTime() - now < 3600*24*3) {
+			else if (itemVo.getRemindTime() - now < 3600 * 24 * 3) {
 				sb.append(count + ". " + itemVo.getCont() + "\n");
 				count += 1;
 			}
 		}
-		if(sb.length() != 0) {
+		if (sb.length() != 0) {
 			sb.insert(0, "您该做以下事情了：\n\n");
-		}else
+		} else
 			sb.append("nothing");
 		return sb.toString();
 	}
-	
-	//返回所有待办
+
+	// 返回所有待办
 	@RequestMapping(value = "/getItemsDone", method = RequestMethod.POST)
-	public Pages<ItemVo> getItemsDone(HttpServletRequest request){
+	public Pages<ItemVo> getItemsDone(HttpServletRequest request) {
 		String limit = request.getParameter("limit");
 		String nowPage = request.getParameter("nowPage");
-		
+
 		// 当前页数
 		int nowPaged = Integer.parseInt(null == nowPage ? "1" : nowPage);
 		// 每页显示页数
@@ -190,5 +188,5 @@ public class ItemController {
 		pages.setStatus(0);
 		return pages;
 	}
-	
+
 }

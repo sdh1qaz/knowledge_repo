@@ -3,7 +3,7 @@ package com.my.blog.website.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.my.blog.website.dao.AttachVoMapper;
 import com.my.blog.website.dto.MetaDto;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Bo.ArchiveBo;
 import com.my.blog.website.model.Vo.*;
 import com.my.blog.website.service.ISiteService;
@@ -85,10 +85,10 @@ public class SiteServiceImpl implements ISiteService {
         BackResponseBo backResponse = new BackResponseBo();
         if (bk_type.equals("attach")) {
             if (StringUtils.isBlank(bk_path)) {
-                throw new TipException("请输入备份文件存储路径");
+                throw new KnowledgeRepoException("请输入备份文件存储路径");
             }
             if (!(new File(bk_path)).isDirectory()) {
-                throw new TipException("请输入一个存在的目录");
+                throw new KnowledgeRepoException("请输入一个存在的目录");
             }
             String bkAttachDir = AttachController.CLASSPATH + "upload";
             String bkThemesDir = AttachController.CLASSPATH + "templates/themes";
@@ -126,7 +126,7 @@ public class SiteServiceImpl implements ISiteService {
             ZipUtils.zipFile(sqlFile.getPath(), zip);
 
             if (!sqlFile.exists()) {
-                throw new TipException("数据库备份失败");
+                throw new KnowledgeRepoException("数据库备份失败");
             }
             sqlFile.delete();
 

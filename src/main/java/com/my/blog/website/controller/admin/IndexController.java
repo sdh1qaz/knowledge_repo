@@ -4,7 +4,7 @@ import com.my.blog.website.service.ISiteService;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
 import com.my.blog.website.dto.LogActions;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Bo.RestResponseBo;
 import com.my.blog.website.model.Bo.StatisticsBo;
 import com.my.blog.website.model.Vo.CommentVo;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Controller("adminIndexController")
 @RequestMapping("/admin")
-@Transactional(rollbackFor = TipException.class)
+@Transactional(rollbackFor = KnowledgeRepoException.class)
 public class IndexController extends BaseController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
@@ -93,10 +93,10 @@ public class IndexController extends BaseController {
 					this.getUid(request));
 
 			// 更新session中的数据
-			UserVo original = (UserVo) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+			UserVo original = (UserVo) session.getAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN);
 			original.setScreenName(screenName);
 			original.setEmail(email);
-			session.setAttribute(WebConst.LOGIN_SESSION_KEY, original);
+			session.setAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN, original);
 		}
 		return RestResponseBo.ok();
 	}
@@ -129,13 +129,13 @@ public class IndexController extends BaseController {
 			logService.insertLog(LogActions.UP_PWD.getAction(), null, request.getRemoteAddr(), this.getUid(request));
 
 			// 更新session中的数据
-			UserVo original = (UserVo) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+			UserVo original = (UserVo) session.getAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN);
 			original.setPassword(pwd);
-			session.setAttribute(WebConst.LOGIN_SESSION_KEY, original);
+			session.setAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN, original);
 			return RestResponseBo.ok();
 		} catch (Exception e) {
 			String msg = "密码修改失败";
-			if (e instanceof TipException) {
+			if (e instanceof KnowledgeRepoException) {
 				msg = e.getMessage();
 			} else {
 				LOGGER.error(msg, e);

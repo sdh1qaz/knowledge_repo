@@ -3,7 +3,7 @@ package com.my.blog.website.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.constant.WebConst;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.TaleUtils;
 import com.my.blog.website.dao.CommentVoMapper;
@@ -118,7 +118,7 @@ public class CommentServiceImpl implements ICommentService {
     @Transactional
     public void delete(Integer coid, Integer cid) {
         if (null == coid) {
-            throw new TipException("主键为空");
+            throw new KnowledgeRepoException("主键为空");
         }
         commentDao.deleteByPrimaryKey(coid);
         ContentVo contents = contentService.getContents(cid + "");

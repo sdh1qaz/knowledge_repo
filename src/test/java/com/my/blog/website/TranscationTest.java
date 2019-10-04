@@ -1,6 +1,6 @@
 package com.my.blog.website;
 
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Vo.UserVo;
 import com.my.blog.website.service.IUserService;
 import com.my.blog.website.service.IOptionService;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 @MapperScan("com.my.blog.website.dao")
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional(rollbackFor = TipException.class)
+@Transactional(rollbackFor = KnowledgeRepoException.class)
 public class TranscationTest {
 
     @Resource

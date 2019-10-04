@@ -3,6 +3,9 @@ package com.my.blog.website.controller;
 import com.my.blog.website.model.Vo.UserVo;
 import com.my.blog.website.utils.TaleUtils;
 import com.my.blog.website.utils.MapCache;
+
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -19,11 +22,7 @@ public abstract class BaseController {
 	protected MapCache cache = MapCache.single();
 
 	/**
-	 * 主页的页面主题
-	 * 
-	 * @param String viewName
-	 * @return String
-	 * @throws 
+	 * 主页的页面主题-render是提交的意思
 	 */
 	public String render(String viewName) {
 		return THEME + "/" + viewName;
@@ -47,11 +46,17 @@ public abstract class BaseController {
 	 * @throws 
 	 */
 	public UserVo user(HttpServletRequest request) {
-		return TaleUtils.getLoginUser(request);
+		List<UserVo> userList = TaleUtils.getLoginUser(request);
+		for(UserVo userVo : userList) {
+			if ("admin".equals(userVo.getUsername())) {
+				return userVo;
+			}
+		}
+		return null;
 	}
-
+	
 	public Integer getUid(HttpServletRequest request) {
-		return this.user(request).getUid();
+		return user(request).getUid();
 	}
 
 	public String render_404() {

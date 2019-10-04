@@ -3,7 +3,7 @@ package com.my.blog.website.service.impl;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.dto.MetaDto;
 import com.my.blog.website.dto.Types;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Vo.MetaVo;
 import com.my.blog.website.model.Vo.RelationshipVoKey;
 import com.my.blog.website.service.IMetaService;
@@ -121,7 +121,7 @@ public class MetaServiceImpl implements IMetaService {
             List<MetaVo> metaVos = metaDao.selectByExample(metaVoExample);
             MetaVo metas;
             if (metaVos.size() != 0) {
-                throw new TipException("已经存在该项");
+                throw new KnowledgeRepoException("已经存在该项");
             } else {
                 metas = new MetaVo();
                 metas.setName(name);
@@ -143,7 +143,7 @@ public class MetaServiceImpl implements IMetaService {
     @Transactional
     public void saveMetas(Integer cid, String names, String type) {
         if (null == cid) {
-            throw new TipException("项目关联id不能为空");
+            throw new KnowledgeRepoException("项目关联id不能为空");
         }
         if (StringUtils.isNotBlank(names) && StringUtils.isNotBlank(type)) {
             String[] nameArr = StringUtils.split(names, ",");
@@ -164,7 +164,7 @@ public class MetaServiceImpl implements IMetaService {
             metas = metaVos.get(0);
             mid = metas.getMid();
         } else if (metaVos.size() > 1) {
-            throw new TipException("查询到多条数据");
+            throw new KnowledgeRepoException("查询到多条数据");
         } else {
             metas = new MetaVo();
             metas.setSlug(name);

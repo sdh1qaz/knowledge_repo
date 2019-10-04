@@ -9,8 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +36,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.admin.AttachController;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Vo.UserVo;
 
 /**
@@ -86,7 +89,7 @@ public class TaleUtils {
 			// 默认是classPath路径
 			InputStream resourceAsStream = new FileInputStream(fileName);
 			properties.load(resourceAsStream);
-		} catch (TipException | IOException e) {
+		} catch (KnowledgeRepoException | IOException e) {
 			LOGGER.error("get properties file fail={}", e.getMessage());
 		}
 		return properties;
@@ -151,13 +154,17 @@ public class TaleUtils {
 	 * 返回当前登录用户
 	 * @return
 	 */
-	public static UserVo getLoginUser(HttpServletRequest request) {
+	public static List<UserVo> getLoginUser(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		if (null == session) {
 			return null;
 		}
-		// 从session中取出属性为login_user的用户
-		return (UserVo) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+		List<UserVo> list = new ArrayList<>();
+		list.add((UserVo) session.getAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN));
+		list.add((UserVo) session.getAttribute(WebConst.LOGIN_SESSION_KEY_USER));
+		//清除null元素
+		list.removeAll(Collections.singleton(null));
+		return list ;
 	}
 
 	/**
@@ -261,7 +268,7 @@ public class TaleUtils {
 	 * @param response
 	 */
 	public static void logout(HttpSession session, HttpServletResponse response) {
-		session.removeAttribute(WebConst.LOGIN_SESSION_KEY);
+		session.removeAttribute(WebConst.LOGIN_SESSION_KEY_ADMIN);
 		Cookie cookie = new Cookie(WebConst.USER_IN_COOKIE, "");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);

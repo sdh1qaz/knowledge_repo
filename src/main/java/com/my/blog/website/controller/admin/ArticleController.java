@@ -22,7 +22,7 @@ import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
 import com.my.blog.website.dto.LogActions;
 import com.my.blog.website.dto.Types;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Bo.RestResponseBo;
 import com.my.blog.website.model.Vo.ContentVo;
 import com.my.blog.website.model.Vo.ContentVoExample;
@@ -37,7 +37,7 @@ import com.my.blog.website.service.IMetaService;
  */
 @Controller
 @RequestMapping("/admin/article")
-@Transactional(rollbackFor = TipException.class)
+@Transactional(rollbackFor = KnowledgeRepoException.class)
 public class ArticleController extends BaseController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArticleController.class);

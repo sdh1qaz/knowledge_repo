@@ -6,7 +6,7 @@ import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.dao.ContentVoMapper;
 import com.my.blog.website.dao.MetaVoMapper;
 import com.my.blog.website.dto.Types;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Vo.ContentVo;
 import com.my.blog.website.model.Vo.ContentVoExample;
 import com.my.blog.website.service.IContentService;
@@ -129,7 +129,7 @@ public class ContentServiceImpl implements IContentService {
 				contentVoExample.createCriteria().andSlugEqualTo(id);
 				List<ContentVo> contentVos = contentDao.selectByExampleWithBLOBs(contentVoExample);
 				if (contentVos.size() != 1) {
-					throw new TipException("query content by id and return is not one");
+					throw new KnowledgeRepoException("query content by id and return is not one");
 				}
 				return contentVos.get(0);
 			}

@@ -5,7 +5,7 @@ import com.my.blog.website.service.ISiteService;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
 import com.my.blog.website.dto.LogActions;
-import com.my.blog.website.exception.TipException;
+import com.my.blog.website.exception.KnowledgeRepoException;
 import com.my.blog.website.model.Bo.BackResponseBo;
 import com.my.blog.website.model.Bo.RestResponseBo;
 import com.my.blog.website.model.Vo.OptionVo;
@@ -101,7 +101,7 @@ public class SettingController extends BaseController {
             return RestResponseBo.ok(backResponse);
         } catch (Exception e) {
             String msg = "备份失败";
-            if (e instanceof TipException) {
+            if (e instanceof KnowledgeRepoException) {
                 msg = e.getMessage();
             } else {
                 LOGGER.error(msg, e);
