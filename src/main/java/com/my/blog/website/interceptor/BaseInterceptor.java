@@ -96,14 +96,14 @@ public class BaseInterceptor implements HandlerInterceptor {
 			String username = userList.get(0).getUsername();
 			LOGGE.info("当前登录的用户：" + username);
 			//登录的用户是前台用户user,前台请求放过，后台请求验证
-			if ("user".equals(userList.get(0).getUsername()) 
+			if ("dhsu".equals(username) 
 					&& uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/admin/login")) {
 				response.sendRedirect(request.getContextPath() + "/admin/login");
 				return false;
 			}
 			//登录的用户是后台用户admin,后台请求放过，前台请求验证
 			//如果uri不以/admin开头，即前台请求，且不以/user/login开头
-			if ("admin".equals(userList.get(0).getUsername()) &&
+			if ("admin".equals(username) &&
 					!uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/user/login")) {
 				response.sendRedirect(request.getContextPath() + "/user/login");
 				return false;

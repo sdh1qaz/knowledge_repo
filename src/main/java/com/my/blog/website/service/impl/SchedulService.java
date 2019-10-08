@@ -78,7 +78,8 @@ public class SchedulService {
 	 */
 	@Scheduled(cron = "0 0/5 * * * ? ")
 	public void checkEsAndLogstash() throws InterruptedException {
-		LOGGER.info("定时任务：检测es和logstash进程开始。。。");
+		//LOGGER.info("定时任务：检测es和logstash进程开始。。。");
+		LOGGER.info("定时任务：检测es进程开始。。。");
 		//如果es没有启动，启动es
 		String netstat = CMDUtil.excuteCMDCommand("netstat -ano").replaceAll(" ", "");
 		// \s*代表若干个空格
@@ -101,7 +102,9 @@ public class SchedulService {
 		}else {
 			LOGGER.info("logstash进程存在");
 		}
-		LOGGER.info("定时任务：检测es和logstash进程完成。。。");*/
+		*/
+		LOGGER.info("定时任务：检测es进程完成。。。");
+		//LOGGER.info("定时任务：检测es和logstash进程完成。。。");
 	}
 
 	/**

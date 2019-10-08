@@ -87,13 +87,13 @@ public class LoadService implements CommandLineRunner{
 		}
 		
 		//如果logstash没有启动，启动logstash
-		String jps = CMDUtil.excuteCMDCommand("jps -v");
+		/*String jps = CMDUtil.excuteCMDCommand("jps -v");
 		if (!jps.contains("logstash-5.4.3")) {
 			LOGGER.info("启动项：未检测到logstash进程，开始启动logstash5.4.3，脚本地址：D:\\logstash-5.4.3\\bin\\start_logstash.bat");
 			String bat_l = "D:\\logstash-5.4.3\\bin\\start_logstash.bat";
 			CMDUtil.runbat(bat_l);
 		}else {
 			LOGGER.info("启动项：检测到logstash进程已经存在，不再启动...");
-		}
+		}*/
 	}
 }
