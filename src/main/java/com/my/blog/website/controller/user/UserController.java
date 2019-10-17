@@ -196,7 +196,7 @@ public class UserController extends BaseController {
 	}
 
 	/**
-	 * 最近浏览历史的20篇文章
+	 * 最近浏览历史的50篇文章
 	 * 
 	 * @return json数组[文章名，文章cid}
 	 */
