@@ -45,6 +45,7 @@ import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.ISiteService;
 import com.my.blog.website.service.dbupdate.UpdateService;
 import com.my.blog.website.service.impl.HistoryQueue;
+import com.my.blog.website.utils.CMDUtil;
 import com.my.blog.website.utils.IPKit;
 import com.my.blog.website.utils.PatternKit;
 import com.my.blog.website.utils.TaleUtils;
@@ -191,6 +192,9 @@ public class UserController extends BaseController {
 		 * 
 		 * @Override public void run() { UpdateService.sendLocal(); } });
 		 */
+		//检测logstash进程是否存在，不存在就打开
+		updateService.startLogStash();
+		//发送数据库sql邮件
 		updateService.sendLocal();
 		return "ok";
 	}

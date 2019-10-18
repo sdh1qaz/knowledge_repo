@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.my.blog.website.utils.CMDUtil;
+
 @Service
 public class UpdateService {
 
@@ -59,6 +61,22 @@ public class UpdateService {
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage(), e);
 			}
+		}
+	}
+	
+	/**
+	 * 如果logstash没有启动，启动logstash
+	 */
+	@Async
+	public void startLogStash() {
+		//如果logstash没有启动，启动logstash
+		String jps = CMDUtil.excuteCMDCommand("jps -v");
+		if (!jps.contains("logstash-5.4.3")) {
+			LOGGER.info("开始启动logstash5.4.3，脚本地址：D:\\logstash-5.4.3\\bin\\start_logstash.bat");
+			String bat_l = "D:\\logstash-5.4.3\\bin\\start_logstash.bat";
+			CMDUtil.runbat(bat_l);
+		}else {
+			LOGGER.info("logstash进程存在，不再开启");
 		}
 	}
 }
