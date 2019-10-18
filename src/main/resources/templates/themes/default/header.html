@@ -21,7 +21,7 @@
 	rel="stylesheet" />
 <link th:href="@{/user/css/style.min.css}" rel="stylesheet" />
 <script th:src="@{//cdn.bootcss.com/jquery/2.2.3/jquery.min.js}"></script>
-
+<script th:src="@{http://127.0.0.1:8687/user/js/input.js}"></script>
 </head>
 <body th:class="${is_post}?'':'bg-grey'">
 	<header id="header" class="header bg-white">
@@ -32,22 +32,22 @@
 
 			<div class="text-search">
 				<input type="button" class="button-header" id="toDoListutton"
-					onclick="toDoList()" value="待办" /> 
-					<input type="button" class="button-header" id="toDoListutton"
-					onclick="doneList()" value="已办" />
-					<input type="button"
-					class="button-header" id="toDoListutton" onclick="showNewly()"
-					value="最新" /> <input type="button" class="button-header"
-					onclick="showHistory()" value="历史" /> <input type="button"
-					class="button-header" id="history" onclick="updateDB()" value="更新" />
-				<input type="button" class="button-header" onclick="pushDB()"
-					value="同步" /> <input type="text" id="search-inp"
-					placeholder="请输入关键字..." /> <!-- <input type="button"
+					onclick="toDoList()" value="待办" /> <input type="button"
+					class="button-header" id="toDoListutton" onclick="doneList()"
+					value="已办" /> <input type="button" class="button-header"
+					id="toDoListutton" onclick="showNewly()" value="最新" /> <input
+					type="button" class="button-header" onclick="showHistory()"
+					value="历史" /> <input type="button" class="button-header"
+					id="history" onclick="updateDB()" value="更新" /> <input
+					type="button" class="button-header" onclick="pushDB()" value="同步" />
+				<input type="text" id="search-inp" placeholder="请输入关键字..." />
+				<!-- <input type="button"
 					class="button-header" id="searchButton" onclick="searchBykeyWord()"
-					value="搜索" /> --> <input type="button" class="button-header"
-					id="esSearchButton" onclick="searchESBykeyWord()" value="搜索" />
-					<input type="button" class="button-header"
-					id="logoutButton" onclick="logout()" value="退出" />
+					value="搜索" /> -->
+				<input type="button" class="button-header" id="esSearchButton"
+					onclick="searchESBykeyWord()" value="搜索" /> <input type="button"
+					class="button-header" id="logoutButton" onclick="logout()"
+					value="退出" />
 				<!-- 输入框自动提示的div -->
 				<div id="auto_div"></div>
 			</div>
@@ -58,12 +58,28 @@
 				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字
 				window.location.href = '/user/search?keyword=' + keyword;
 			} */
-			
+
 			//退出
-			function logout(){
+			function logout() {
 				window.location.href = '/user/logout';
 			}
-			
+
+			//搜索输入框回车事件
+			$("#search-inp").keydown(function(e) {
+				if (e.keyCode == 13) {
+					searchESBykeyWord();
+				}
+			});
+
+			/* $('#search-inp').keypress(function (e) {
+			    var key = e.which; //e.which是按键的值
+			    if (key == 13) {
+			        var q = $(this).val();
+			        if (q && q != '') {
+			            window.location.href ='/user/search?keyword=' + q;
+			        }
+			    }
+			}); */
 			//es搜索
 			function searchESBykeyWord() {
 				var keyword = document.getElementById("search-inp").value;//原生js获取输入的关键字
@@ -83,7 +99,7 @@
 						}
 					}
 				});
-			} 
+			}
 			//设置定时器，每30分钟提醒一次设置了提醒时间的事项
 			var timer1 = self.setInterval("remind1()", 1000 * 60 * 30);
 			function remind1() {
@@ -103,12 +119,12 @@
 			function toDoList() {
 				window.location.href = '/user/listItems';
 			}
-			
+
 			//点击已办按钮
 			function doneList() {
 				window.location.href = '/user/listDoneItems';
 			}
-			
+
 			function showHistory() {
 				window.location.href = '/user/histQ';
 			}
@@ -168,8 +184,6 @@
 				});
 			});
 		</script>
-		<script th:src="@{http://127.0.0.1:8687/user/js/input.js}"></script>
-
 	</header>
 </body>
 </html>
