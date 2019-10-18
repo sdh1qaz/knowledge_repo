@@ -376,7 +376,10 @@ public class UserController extends BaseController {
 	 */
 	@GetMapping(value = { "article/{cid}", "article/{cid}.html" })
 	public String getArticle(HttpServletRequest request, @PathVariable String cid) {
+		//更新最近阅读时间
+		int res = contentService.updateArticleReadtime(Integer.valueOf(cid));
 		ContentVo contents = contentService.getContents(cid);
+		LOGGER.info("更新最近阅读时间结果：res=" + res);
 		// 当前文章进入浏览历史队列
 		histQ.offer(contents);
 		/*
@@ -392,7 +395,9 @@ public class UserController extends BaseController {
 		 * if (!checkHitsFrequency(request, cid)) { updateArticleHit(contents.getCid(),
 		 * contents.getHits()); }
 		 */
+		//点击数加1
 		contentService.hitsAddsByOne(Integer.valueOf(cid));
+		
 		// 记录日志，哪个ip点击了哪篇文章
 		String clientIp = IPKit.getIpAddrByRequest(request);// 客户端ip
 		int port = IPKit.getPort(request);

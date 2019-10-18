@@ -10,7 +10,7 @@
 						<div class="item-label">
 							<div class="item-title">
 								<a th:href="${commons.permalink(article)}"
-									th:text="${articleStat.index+1}+'、 '+ ${article.title}"></a>
+									th:text="${articleStat.index+1}+'、 '+ ${article.title} + '    ..............last read at ' + ${article.lastReadTime}"></a>
 							</div>
 						</div>
 					</div>

@@ -3,216 +3,227 @@ package com.my.blog.website.model.Vo;
 import java.io.Serializable;
 
 /**
- * @author 
+ * @author
  */
 public class ContentVo implements Serializable {
-    /**
-     * post表主键
-     */
-    private Integer cid;
+	public String getLastReadTime() {
+		return lastReadTime;
+	}
 
-    /**
-     * 内容标题
-     */
-    private String title;
+	public void setLastReadTime(String lastReadTime) {
+		this.lastReadTime = lastReadTime;
+	}
 
-    /**
-     * 内容缩略名
-     */
-    private String slug;
+	/**
+	 * post表主键
+	 */
+	private Integer cid;
 
-    /**
-     * 内容生成时的GMT unix时间戳
-     */
-    private Integer created;
+	/**
+	 * 内容标题
+	 */
+	private String title;
 
-    /**
-     * 内容更改时的GMT unix时间戳
-     */
-    private Integer modified;
+	/**
+	 * 内容缩略名
+	 */
+	private String slug;
 
-    /**
-     * 内容所属用户id
-     */
-    private Integer authorId;
+	/**
+	 * 内容生成时的GMT unix时间戳
+	 */
+	private Integer created;
 
-    /**
-     * 内容类别
-     */
-    private String type;
+	/**
+	 * 内容更改时的GMT unix时间戳
+	 */
+	private Integer modified;
 
-    /**
-     * 内容状态
-     */
-    private String status;
+	private String lastReadTime;
 
-    /**
-     * 标签列表
-     */
-    private String tags;
+	/**
+	 * 内容所属用户id
+	 */
+	private Integer authorId;
 
-    /**
-     * 分类列表
-     */
-    private String categories;
+	/**
+	 * 内容类别
+	 */
+	private String type;
 
-    /**
-     * 点击次数
-     */
-    private Integer hits;
+	/**
+	 * 内容状态
+	 */
+	private String status;
 
-    /**
-     * 内容所属评论数
-     */
-    private Integer commentsNum;
+	/**
+	 * 标签列表
+	 */
+	private String tags;
 
-    /**
-     * 是否允许评论
-     */
-    private Boolean allowComment;
+	/**
+	 * 分类列表
+	 */
+	private String categories;
 
-    /**
-     * 是否允许ping
-     */
-    private Boolean allowPing;
+	/**
+	 * 点击次数
+	 */
+	private Integer hits;
 
-    /**
-     * 允许出现在聚合中
-     */
-    private Boolean allowFeed;
+	/**
+	 * 内容所属评论数
+	 */
+	private Integer commentsNum;
 
-    /**
-     * 内容文字
-     */
-    private String content;
+	/**
+	 * 是否允许评论
+	 */
+	private Boolean allowComment;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 是否允许ping
+	 */
+	private Boolean allowPing;
 
-    public Integer getCid() {
-        return cid;
-    }
+	/**
+	 * 允许出现在聚合中
+	 */
+	private Boolean allowFeed;
 
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
+	/**
+	 * 内容文字
+	 */
+	private String content;
 
-    public String getTitle() {
-        return title;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public Integer getCid() {
+		return cid;
+	}
 
-    public String getSlug() {
-        return slug;
-    }
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
 
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public Integer getCreated() {
-        return created;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setCreated(Integer created) {
-        this.created = created;
-    }
+	public String getSlug() {
+		return slug;
+	}
 
-    public Integer getModified() {
-        return modified;
-    }
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
 
-    public void setModified(Integer modified) {
-        this.modified = modified;
-    }
+	public Integer getCreated() {
+		return created;
+	}
 
-    public Integer getAuthorId() {
-        return authorId;
-    }
+	public void setCreated(Integer created) {
+		this.created = created;
+	}
 
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
-    }
+	public Integer getModified() {
+		return modified;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setModified(Integer modified) {
+		this.modified = modified;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public Integer getAuthorId() {
+		return authorId;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setAuthorId(Integer authorId) {
+		this.authorId = authorId;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public String getTags() {
-        return tags;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public String getCategories() {
-        return categories;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public void setCategories(String categories) {
-        this.categories = categories;
-    }
+	public String getTags() {
+		return tags;
+	}
 
-    public Integer getHits() {
-        return hits;
-    }
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 
-    public void setHits(Integer hits) {
-        this.hits = hits;
-    }
+	public String getCategories() {
+		return categories;
+	}
 
-    public Integer getCommentsNum() {
-        return commentsNum;
-    }
+	public void setCategories(String categories) {
+		this.categories = categories;
+	}
 
-    public void setCommentsNum(Integer commentsNum) {
-        this.commentsNum = commentsNum;
-    }
+	public Integer getHits() {
+		return hits;
+	}
 
-    public Boolean getAllowComment() {
-        return allowComment;
-    }
+	public void setHits(Integer hits) {
+		this.hits = hits;
+	}
 
-    public void setAllowComment(Boolean allowComment) {
-        this.allowComment = allowComment;
-    }
+	public Integer getCommentsNum() {
+		return commentsNum;
+	}
 
-    public Boolean getAllowPing() {
-        return allowPing;
-    }
+	public void setCommentsNum(Integer commentsNum) {
+		this.commentsNum = commentsNum;
+	}
 
-    public void setAllowPing(Boolean allowPing) {
-        this.allowPing = allowPing;
-    }
+	public Boolean getAllowComment() {
+		return allowComment;
+	}
 
-    public Boolean getAllowFeed() {
-        return allowFeed;
-    }
+	public void setAllowComment(Boolean allowComment) {
+		this.allowComment = allowComment;
+	}
 
-    public void setAllowFeed(Boolean allowFeed) {
-        this.allowFeed = allowFeed;
-    }
+	public Boolean getAllowPing() {
+		return allowPing;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public void setAllowPing(Boolean allowPing) {
+		this.allowPing = allowPing;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public Boolean getAllowFeed() {
+		return allowFeed;
+	}
+
+	public void setAllowFeed(Boolean allowFeed) {
+		this.allowFeed = allowFeed;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 }

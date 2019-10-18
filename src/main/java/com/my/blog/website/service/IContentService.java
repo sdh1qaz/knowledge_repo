@@ -117,6 +117,11 @@ public interface IContentService {
 	int hitsAddsByOne(Integer cid);
 	
 	/**
+	 * 更新文章的最近阅读时间
+	 */
+	int  updateArticleReadtime(Integer cid);
+	
+	/**
 	 * 根据关键词搜索文章标题列表
 	 * 
 	 * @param String keyword

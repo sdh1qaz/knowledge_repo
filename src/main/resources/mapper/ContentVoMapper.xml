@@ -17,6 +17,7 @@
 		<result column="allow_comment" jdbcType="BIT" property="allowComment" />
 		<result column="allow_ping" jdbcType="BIT" property="allowPing" />
 		<result column="allow_feed" jdbcType="BIT" property="allowFeed" />
+		<result column="last_read_time" jdbcType="VARCHAR" property="lastReadTime" />
 	</resultMap>
 	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
 		type="com.my.blog.website.model.Vo.ContentVo">
@@ -88,7 +89,7 @@
 		</where>
 	</sql>
 	<sql id="Base_Column_List">
-		cid, title, slug, created, modified, author_id, type,
+		cid, title, slug, created, modified,last_read_time, author_id, type,
 		status, tags,
 		categories, hits,
 		comments_num, allow_comment, allow_ping,
@@ -552,5 +553,10 @@
 	<update id="hitsAddsByOne" parameterType="java.lang.Integer">
 		update t_contents set
 		hits = hits + 1 where cid=#{cid,jdbcType=INTEGER}
+	</update>
+	<!-- 更新文章的最近阅读时间-->
+	<update id="updateArticleReadtime" parameterType="java.lang.Integer">
+		update t_contents set
+		last_read_time = now() where cid=#{cid,jdbcType=INTEGER}
 	</update>
 </mapper>

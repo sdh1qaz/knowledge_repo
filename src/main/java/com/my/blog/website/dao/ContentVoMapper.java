@@ -41,23 +41,21 @@ public interface ContentVoMapper {
 	List<ArchiveBo> findReturnArchiveBo();
 
 	List<ContentVo> findByCatalog(Integer mid);
-	
+
 	/**
-	* @Description: 查询最近添加的num篇文章  
+	 * @Description: 查询最近添加的num篇文章
 	 */
 	List<ContentVo> getNewlyArticles(Integer num);
-	
-	//文章的点击数加1
+
+	// 文章的点击数加1
 	int hitsAddsByOne(Integer cid);
-	
-	//根据名字搜文章
+
+	// 根据名字搜文章
 	List<ContentVo> getCont(String title);
-	
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * 更新文章的最近阅读时间
+	 */
+	int updateArticleReadtime(Integer cid);
+
 }

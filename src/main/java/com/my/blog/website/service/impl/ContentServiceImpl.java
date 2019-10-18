@@ -49,7 +49,7 @@ public class ContentServiceImpl implements IContentService {
 
 	@Resource
 	private IMetaService metasService;
-	
+
 	@Override
 	@Transactional
 	public String publish(ContentVo contents) {
@@ -277,7 +277,7 @@ public class ContentServiceImpl implements IContentService {
 		relationshipService.deleteById(cid, null);
 		metasService.saveMetas(cid, contents.getTags(), Types.TAG.getType());
 		metasService.saveMetas(cid, contents.getCategories(), Types.CATEGORY.getType());
-		
+
 		return WebConst.SUCCESS_RESULT;
 	}
 
@@ -293,14 +293,23 @@ public class ContentServiceImpl implements IContentService {
 		int hits = contentDao.hitsAddsByOne(cid);
 		return hits;
 	}
-	
+
+	/**
+	 * 更新文章的最近阅读时间
+	 */
+	@Override
+	public int updateArticleReadtime(Integer cid) {
+		return contentDao.updateArticleReadtime(cid);
+	}
+
 	/**
 	 * 查询最近添加的20篇文章
 	 * 
-	 * @param String title
+	 * @param String
+	 *            title
 	 * @return List
 	 */
-	public List<ContentVo> getNewlyArticles(Integer num){
+	public List<ContentVo> getNewlyArticles(Integer num) {
 		return contentDao.getNewlyArticles(num);
 	}
 }
