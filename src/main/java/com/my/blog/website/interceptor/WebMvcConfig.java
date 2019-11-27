@@ -4,10 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import com.my.blog.website.utils.TaleUtils;
 
 /**
  * 向mvc中添加自定义组件 Created by BlueT on 2017/3/9.
@@ -25,8 +22,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(baseInterceptor).addPathPatterns("/**")
 			.excludePathPatterns("/admin/css/**","/admin/editor/**","/admin/images/**","/admin/js/**"
-					,"/admin/plugins/**","/dependents/**","/user/css/**","/user/img/**","/user/js/**",
-					"/attached/image/**");
+					,"/admin/plugins/**","/dependents/**","/user/css/**","/user/img/**","/user/js/**","/attached/**");
 	}
 
 	/**
@@ -34,12 +30,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	 * 注意：springboot2.0之后会拦截静态资源，用此方法拦截静态资源会无效
 	 * @param registry
 	 */
-	@Override
+	/*@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/upload/**")
 				.addResourceLocations("file:" + TaleUtils.getUploadFilePath() + "upload/");
 		super.addResourceHandlers(registry);
-	}
+	}*/
 	
 	
 }

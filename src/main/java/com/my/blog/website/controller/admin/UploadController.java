@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,18 +42,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @RequestMapping("/admin/")
 public class UploadController {
+	
+	@Value("${upload.path}")
+	private String uploadPath;
 
 	private static final ObjectMapper objectMapper = new ObjectMapper();
-	private  PrintWriter writer = null;
+	private PrintWriter writer = null;
+
 	@RequestMapping(value = "fileUpload", method = RequestMethod.POST)
-	public void fileUpload(MultipartHttpServletRequest  request,
-			HttpServletResponse response) throws ServletException, IOException,
-			FileUploadException {
-		ServletContext application = request.getSession().getServletContext();
-		String savePath = application.getRealPath("/") + "attached/";
-		//String savePath = "E:\\forum\\forum_TPS\\src\\main\\resources\\static\\attached\\";//指定固定路径
-		// 文件保存目录URL
-		String saveUrl = request.getContextPath() + "/attached/";
+	public void fileUpload(MultipartHttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, FileUploadException {
+		//上传文件保存的目录
+		String savePath = uploadPath;
+		//文件的url
+		String saveUrl = "/attached/";
+		System.out.println("**************************saveUrl=" + saveUrl);
 		// 定义允许上传的文件扩展名
 		HashMap<String, String> extMap = new HashMap<String, String>();
 		extMap.put("image", "gif,jpg,jpeg,png,bmp");
@@ -63,20 +67,19 @@ public class UploadController {
 		// 最大文件大小 10M
 		long maxSize = 10000000;
 
-		response.reset();//清楚response中缓存的数据
-        response.setCharacterEncoding("UTF-8");  //设置发送给客户端的响应的字符编码（MIME字符集）
-        response.setContentType("text/html");   //设置发送给客户端的响应的内容类型
-        writer = response.getWriter();   //返回可以向客户端发送字符文本的PrimWrutter对象
+		response.reset();// 清楚response中缓存的数据
+		response.setCharacterEncoding("UTF-8"); // 设置发送给客户端的响应的字符编码（MIME字符集）
+		response.setContentType("text/html"); // 设置发送给客户端的响应的内容类型
+		writer = response.getWriter(); // 返回可以向客户端发送字符文本的PrimWrutter对象
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			writer.println(objectMapper.writeValueAsString(getError("请选择要上传的文件。")));
 			return;
-			
 		}
 		// 检查目录
 		File uploadDir = new File(savePath);
 		if (!uploadDir.isDirectory()) {
-			//writer.println(objectMapper.writeValueAsString(getError("上传目录不存在。")));
-			//return;
+			// writer.println(objectMapper.writeValueAsString(getError("上传目录不存在。")));
+			// return;
 			uploadDir.mkdir();
 		}
 		// 检查目录写权限
@@ -109,41 +112,40 @@ public class UploadController {
 			dirFile.mkdirs();
 		}
 		List<MultipartFile> files = request.getFiles("imgFile");
-		
+
 		Iterator<MultipartFile> itr = files.iterator();
 		while (itr.hasNext()) {
 			MultipartFile item = itr.next();
 			String fileName = item.getOriginalFilename();
-				// 检查文件大小
-				if (item.getSize() > maxSize) {
-					writer.println(objectMapper.writeValueAsString(getError("上传文件大小超过限制。")));
-				}
-				// 检查扩展名
-				String fileExt = fileName.substring(
-						fileName.lastIndexOf(".") + 1).toLowerCase();
-				if (!Arrays.<String> asList(extMap.get(dirName).split(","))
-						.contains(fileExt)) {
-					writer.println(objectMapper.writeValueAsString(getError("上传文件扩展名是不允许的扩展名。\n只允许"+ extMap.get(dirName) + "格式。")));
-					return;
-				}
-
-				SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-				String newFileName = df.format(new Date()) + "_"
-						+ new Random().nextInt(1000) + "." + fileExt;
-				try {
-					File uploadedFile = new File(savePath, newFileName);
-					item.transferTo(uploadedFile);
-					
-				} catch (Exception e) {
-					writer.println(objectMapper.writeValueAsString(getError("上传文件失败。")));
-				}
-
-				Map<String, Object> msg = new HashMap<String, Object>();
-				msg.put("error", 0);
-				msg.put("url", saveUrl + newFileName);
-				writer.println(objectMapper.writeValueAsString(msg));
+			// 检查文件大小
+			if (item.getSize() > maxSize) {
+				writer.println(objectMapper.writeValueAsString(getError("上传文件大小超过限制。")));
+			}
+			// 检查扩展名
+			String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+			if (!Arrays.<String>asList(extMap.get(dirName).split(",")).contains(fileExt)) {
+				writer.println(objectMapper
+						.writeValueAsString(getError("上传文件扩展名是不允许的扩展名。\n只允许" + extMap.get(dirName) + "格式。")));
 				return;
-		
+			}
+
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+			String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + "." + fileExt;
+			try {
+				File uploadedFile = new File(savePath, newFileName);
+				item.transferTo(uploadedFile);
+
+			} catch (Exception e) {
+				writer.println(objectMapper.writeValueAsString(getError("上传文件失败。")));
+			}
+
+			Map<String, Object> msg = new HashMap<String, Object>();
+			msg.put("error", 0);
+			System.out.println("##################################saveUrl=" + saveUrl);
+			msg.put("url", saveUrl + newFileName);
+			writer.println(objectMapper.writeValueAsString(msg));
+			return;
+
 		}
 		return;
 	}
@@ -157,28 +159,19 @@ public class UploadController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "fileManager", method = RequestMethod.GET)
-	public void fileManager(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	public void fileManager(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ServletContext application = request.getSession().getServletContext();
 		ServletOutputStream out = response.getOutputStream();
 		// 根目录路径，可以指定绝对路径，比如 /var/www/attached/
-		 String rootPath = application.getRealPath("/") + "attached/";
+		String rootPath = uploadPath;
 		// 根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
-		//String rootPath = "E:/forumTpsSave/attached/";
-		String rootUrl = request.getContextPath() + "/attached/";
-		
-		/*String rootPath = "E:/forumTpsSave/attached/";
-		String rootUrl = "E:/forumTpsSave/attached/";*/
-		/*System.out.println("rootPath= " + rootPath);
-		System.out.println("rootUrl= " + rootUrl);*/
+		String rootUrl = "/attached/";
 		// 图片扩展名
 		String[] fileTypes = new String[] { "gif", "jpg", "jpeg", "png", "bmp" };
-
 		String dirName = request.getParameter("dir");
 		if (dirName != null) {
-			if (!Arrays.<String> asList(
-					new String[] { "image", "flash", "media", "file" })
-					.contains(dirName)) {
+			if (!Arrays.<String>asList(new String[] { "image", "flash", "media", "file" }).contains(dirName)) {
 				out.println("Invalid Directory name.");
 				return;
 			}
@@ -190,22 +183,18 @@ public class UploadController {
 			}
 		}
 		// 根据path参数，设置各路径和URL
-		String path = request.getParameter("path") != null ? request
-				.getParameter("path") : "";
+		String path = request.getParameter("path") != null ? request.getParameter("path") : "";
 		String currentPath = rootPath + path;
 		String currentUrl = rootUrl + path;
 		String currentDirPath = path;
 		String moveupDirPath = "";
 		if (!"".equals(path)) {
-			String str = currentDirPath.substring(0,
-					currentDirPath.length() - 1);
-			moveupDirPath = str.lastIndexOf("/") >= 0 ? str.substring(0,
-					str.lastIndexOf("/") + 1) : "";
+			String str = currentDirPath.substring(0, currentDirPath.length() - 1);
+			moveupDirPath = str.lastIndexOf("/") >= 0 ? str.substring(0, str.lastIndexOf("/") + 1) : "";
 		}
 
 		// 排序形式，name or size or type
-		String order = request.getParameter("order") != null ? request
-				.getParameter("order").toLowerCase() : "name";
+		String order = request.getParameter("order") != null ? request.getParameter("order").toLowerCase() : "name";
 
 		// 不允许使用..移动到上一级目录
 		if (path.indexOf("..") >= 0) {
@@ -236,19 +225,15 @@ public class UploadController {
 					hash.put("is_photo", false);
 					hash.put("filetype", "");
 				} else if (file.isFile()) {
-					String fileExt = fileName.substring(
-							fileName.lastIndexOf(".") + 1).toLowerCase();
+					String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 					hash.put("is_dir", false);
 					hash.put("has_file", false);
 					hash.put("filesize", file.length());
-					hash.put("is_photo", Arrays.<String> asList(fileTypes)
-							.contains(fileExt));
+					hash.put("is_photo", Arrays.<String>asList(fileTypes).contains(fileExt));
 					hash.put("filetype", fileExt);
 				}
 				hash.put("filename", fileName);
-				hash.put("datetime",
-						new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(file
-								.lastModified()));
+				hash.put("datetime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(file.lastModified()));
 				fileList.add(hash);
 			}
 		}
@@ -276,15 +261,12 @@ public class UploadController {
 		public int compare(Object a, Object b) {
 			Hashtable hashA = (Hashtable) a;
 			Hashtable hashB = (Hashtable) b;
-			if (((Boolean) hashA.get("is_dir"))
-					&& !((Boolean) hashB.get("is_dir"))) {
+			if (((Boolean) hashA.get("is_dir")) && !((Boolean) hashB.get("is_dir"))) {
 				return -1;
-			} else if (!((Boolean) hashA.get("is_dir"))
-					&& ((Boolean) hashB.get("is_dir"))) {
+			} else if (!((Boolean) hashA.get("is_dir")) && ((Boolean) hashB.get("is_dir"))) {
 				return 1;
 			} else {
-				return ((String) hashA.get("filename"))
-						.compareTo((String) hashB.get("filename"));
+				return ((String) hashA.get("filename")).compareTo((String) hashB.get("filename"));
 			}
 		}
 	}
@@ -294,18 +276,14 @@ public class UploadController {
 		public int compare(Object a, Object b) {
 			Hashtable hashA = (Hashtable) a;
 			Hashtable hashB = (Hashtable) b;
-			if (((Boolean) hashA.get("is_dir"))
-					&& !((Boolean) hashB.get("is_dir"))) {
+			if (((Boolean) hashA.get("is_dir")) && !((Boolean) hashB.get("is_dir"))) {
 				return -1;
-			} else if (!((Boolean) hashA.get("is_dir"))
-					&& ((Boolean) hashB.get("is_dir"))) {
+			} else if (!((Boolean) hashA.get("is_dir")) && ((Boolean) hashB.get("is_dir"))) {
 				return 1;
 			} else {
-				if (((Long) hashA.get("filesize")) > ((Long) hashB
-						.get("filesize"))) {
+				if (((Long) hashA.get("filesize")) > ((Long) hashB.get("filesize"))) {
 					return 1;
-				} else if (((Long) hashA.get("filesize")) < ((Long) hashB
-						.get("filesize"))) {
+				} else if (((Long) hashA.get("filesize")) < ((Long) hashB.get("filesize"))) {
 					return -1;
 				} else {
 					return 0;
@@ -319,15 +297,12 @@ public class UploadController {
 		public int compare(Object a, Object b) {
 			Hashtable hashA = (Hashtable) a;
 			Hashtable hashB = (Hashtable) b;
-			if (((Boolean) hashA.get("is_dir"))
-					&& !((Boolean) hashB.get("is_dir"))) {
+			if (((Boolean) hashA.get("is_dir")) && !((Boolean) hashB.get("is_dir"))) {
 				return -1;
-			} else if (!((Boolean) hashA.get("is_dir"))
-					&& ((Boolean) hashB.get("is_dir"))) {
+			} else if (!((Boolean) hashA.get("is_dir")) && ((Boolean) hashB.get("is_dir"))) {
 				return 1;
 			} else {
-				return ((String) hashA.get("filetype"))
-						.compareTo((String) hashB.get("filetype"));
+				return ((String) hashA.get("filetype")).compareTo((String) hashB.get("filetype"));
 			}
 		}
 	}
