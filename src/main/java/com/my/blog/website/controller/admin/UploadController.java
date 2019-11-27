@@ -55,7 +55,7 @@ public class UploadController {
 		//上传文件保存的目录
 		String savePath = uploadPath;
 		//文件的url
-		String saveUrl = "/attached/";
+		String saveUrl = "/";
 		System.out.println("**************************saveUrl=" + saveUrl);
 		// 定义允许上传的文件扩展名
 		HashMap<String, String> extMap = new HashMap<String, String>();
@@ -166,7 +166,7 @@ public class UploadController {
 		// 根目录路径，可以指定绝对路径，比如 /var/www/attached/
 		String rootPath = uploadPath;
 		// 根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
-		String rootUrl = "/attached/";
+		String rootUrl = "/";
 		// 图片扩展名
 		String[] fileTypes = new String[] { "gif", "jpg", "jpeg", "png", "bmp" };
 		String dirName = request.getParameter("dir");

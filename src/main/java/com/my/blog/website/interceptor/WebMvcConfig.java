@@ -22,7 +22,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(baseInterceptor).addPathPatterns("/**")
 			.excludePathPatterns("/admin/css/**","/admin/editor/**","/admin/images/**","/admin/js/**"
-					,"/admin/plugins/**","/dependents/**","/user/css/**","/user/img/**","/user/js/**","/attached/**");
+					,"/admin/plugins/**","/dependents/**","/user/css/**","/user/img/**","/user/js/**","/image/**");
 	}
 
 	/**
