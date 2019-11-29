@@ -9,7 +9,6 @@ import javax.mail.Store;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +24,6 @@ public class ReadSendQQemail {
 	 * 发送QQ邮件
 	 */
 	public static void SendEmail() {
-		sendEmail(OperateDB.exportDataSql());
-	}
-
-	@Test
-	public void testSendEmail() {
 		sendEmail(OperateDB.exportDataSql());
 	}
 
