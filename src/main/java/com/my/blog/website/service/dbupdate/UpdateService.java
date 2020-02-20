@@ -1,7 +1,9 @@
 package com.my.blog.website.service.dbupdate;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
@@ -52,8 +54,12 @@ public class UpdateService {
 						f.createNewFile();
 					}
 					FileOutputStream fout = new FileOutputStream(f);
-					fout.write(sql.getBytes());
-					fout.close();
+					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fout,"UTF-8"));
+					writer.write(sql);
+					writer.flush();
+					writer.close();
+					/*fout.write(sql.getBytes());
+					fout.close();*/
 					// 执行sql脚本
 					OperateDB.runSqlFile(MailConstants.sqlFile);
 					break;
